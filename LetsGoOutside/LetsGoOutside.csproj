@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LetsGoOutside.Infrastructure\LetsGoOutside.Infrastructure.csproj" />
+    <ProjectReference Include="..\LetsGoOutside.Core\LetsGoOutside.Core.csproj" />
   </ItemGroup>
 
 </Project>

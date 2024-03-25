@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LetsGoOutside.Infrastructure\LetsGoOutside.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
