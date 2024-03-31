@@ -60,6 +60,8 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [Comment("ApprovedByAdmin")]
         public bool IsApproved { get; set; } = false;
 
+        public ICollection<UserArticle> Likes { get; set; } = new List<UserArticle>();
+
 
 
 
