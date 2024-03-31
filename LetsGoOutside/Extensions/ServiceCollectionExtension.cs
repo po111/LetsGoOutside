@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddApplicationDbContext(this IServiceCollection services, IConfiguration config)
         {
             var connectionString = config.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<LetsGoOutsideDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
 
@@ -32,13 +32,14 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddDefaultIdentity<IdentityUser>(options =>
                 {
                     options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequiredLength = 6;
                     options.Password.RequireNonAlphanumeric = true;
                     options.Password.RequireDigit = true;
                     options.Password.RequireLowercase = true;
                     options.Password.RequireUppercase = true;
 
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<LetsGoOutsideDbContext>();
 
 
             return services;
