@@ -25,7 +25,8 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         public string Name { get; set; } = string.Empty;
 
         [Required]
-        public DateTime DateOfCreation { get; set; }
+        [Comment("Date of creation")]
+        public DateTime DateCreated { get; set; }
 
         [Required]
         [Comment("User Identifier")]

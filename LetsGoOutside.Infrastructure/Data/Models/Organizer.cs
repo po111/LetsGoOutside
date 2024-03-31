@@ -26,9 +26,21 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         public string Name { get; set; } = string.Empty;
 
         [Required]
+        [StringLength(OrganizerBriefPresentationMaxLength)]
+        [Comment("Organizer brief presentation")]
+        public string BriefPresentation { get; set; } = string.Empty;
+
+        [Required]
         [StringLength(OrganizerPhoneMaxLength)]
         [Comment("Organizer's phone")]
         public string PhoneNumber { get; set; } = string.Empty;
+
+        [Required]
+        [Comment("Organizer date of creation")]
+        public DateTime DateOfCreation { get; set; }
+
+        [Comment("Organizer website")]
+        public string? UrlWebsite { get; set; }
 
         [Required]
         [Comment("User Identifier")]
@@ -36,10 +48,6 @@ namespace LetsGoOutside.Infrastructure.Data.Models
 
         [ForeignKey(nameof(UserId))]
         public IdentityUser User { get; set; } = null!;
-
-        [Required]
-        [Comment("Organizer date of creation")]
-        public DateTime DateOfCreation { get; set; }
 
         [Comment("List of organizer's events")]
         public IEnumerable<Event> Events { get; set; } = new List<Event>();

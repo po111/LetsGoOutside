@@ -18,6 +18,11 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         public string Title { get; set; } = string.Empty;
 
         [Required]
+        [StringLength(BriefIntroductionMaxLength)]
+        [Comment("Article brief introduction")]
+        public string BriefIntroduction { get; set; } = string.Empty;
+
+        [Required]
         [StringLength(ArticleContentMaxLength)]
         [Comment("Article content")]
         public string Content { get; set; } = string.Empty;
@@ -26,9 +31,9 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [Comment("Date of creation")]
         public DateTime DateCreated { get; set; }
 
-        [Required]
-        [Comment("Date modified")]
-        public DateTime DateModified { get; set; }
+        
+        //[Comment("Date modified")]
+        //public DateTime? DateModified { get; set; }
 
         [Comment("Article image url")]
         public string? ImageUrl { get; set; }
@@ -40,13 +45,16 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [ForeignKey(nameof(AuthorId))]
         public Author Author { get; set; } = null!;
 
-        [Required]
+        
         [Comment("List of categories")]
-        public List<Category> Categories { get; set; } =  new List<Category>();
+        public List<Category> ArticleCategories { get; set; } =  new List<Category>();
 
-        [Required]
-        [Comment("Weather identifier")]
-        public List<Weather> Weathers { get; set; } = new List<Weather>();
+        
+        [Comment("List of appropriate weather")]
+        public List<Weather> ArticleWeathers { get; set; } = new List<Weather>();
+
+        [Comment("Article source hyperlink")]
+        public string HyperlinkSource { get; set; } = string.Empty;
 
         [Required]
         [Comment("ApprovedByAdmin")]

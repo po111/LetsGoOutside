@@ -18,6 +18,12 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         public string Title { get; set; } = string.Empty;
 
         [Required]
+        [StringLength(BriefIntroductionMaxLength)]
+        [Comment("Event brief introduction")]
+        public string BriefIntroduction { get; set; } = string.Empty;
+
+
+        [Required]
         [StringLength(EventDescriptionMaxLength)]
         [Comment("Event description")]
         public string Description { get; set; } = string.Empty;
@@ -30,14 +36,20 @@ namespace LetsGoOutside.Infrastructure.Data.Models
 
         [Required]
         [Comment("Date of creation of event")]
-        public DateTime DateOfCreation { get; set; }
+        public DateTime DateCreated { get; set; }
 
-        [Required]
-        [Comment("Date of event")]
-        public DateTime DueDate { get; set; }
+        
+        [Comment("Start date of event")]
+        public DateTime? StartDate { get; set; }
+
+        [Comment("End date of event")]
+        public DateTime? EndDate { get; set; }
 
         [Comment("Event image url")]
         public string? ImageUrl { get; set; }
+
+        [Comment("Event hyperlink")]
+        public string EventHyperlink { get; set; } = string.Empty;
 
         [Required]
         [Comment("Organizer identifier")]
