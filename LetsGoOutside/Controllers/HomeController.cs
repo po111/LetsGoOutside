@@ -1,4 +1,5 @@
-﻿using LetsGoOutside.Models;
+﻿using LetsGoOutside.Core.Models.Home;
+using LetsGoOutside.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,7 +16,9 @@ namespace LetsGoOutside.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new IndexViewModel();
+
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
