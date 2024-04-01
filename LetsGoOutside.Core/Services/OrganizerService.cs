@@ -27,7 +27,7 @@ namespace LetsGoOutside.Core.Services
                 UserId = userId,
                 Name = name, 
                 PhoneNumber = phoneNumber,
-                DateOfCreation = DateTime.Now,
+                DateCreated = DateTime.Now,
                 UrlWebsite = website,
                 BriefPresentation = briefPresentation
             });

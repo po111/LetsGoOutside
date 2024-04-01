@@ -1,10 +1,9 @@
-﻿using LetsGoOutside.Core.Contracts;
-using LetsGoOutside.Core.Models.Author;
+﻿using LetsGoOutside.Attributes;
+using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Models.Organizer;
-using LetsGoOutside.Core.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using static LetsGoOutside.Core.Constants.MessageConstants;
 
 namespace LetsGoOutside.Controllers
 {
@@ -18,21 +17,35 @@ namespace LetsGoOutside.Controllers
             organizerService = _organizerService;       
         }
         [HttpGet]
-        public async Task<IActionResult> Become()
+        [NotOrganizer]
+        public IActionResult Become()
         {
-            if (await organizerService.ExistsByIdAsync(User.Id()))
-            {
-                return BadRequest();
-            }
-
             var model = new BecomeOrganizerFormModel();
 
             return View(model);
         }
 
         [HttpPost]
+        [NotOrganizer]
         public async Task<IActionResult> Become(BecomeOrganizerFormModel model)
         {
+            if (await organizerService.OrganizerWithPhoneNumberExistsAsync(model.PhoneNumber))
+            {
+                ModelState.AddModelError(nameof(model.PhoneNumber), PhoneExists);
+            }
+
+            if (await organizerService.OrganizerWithSameNameExistsAsync(model.Name))
+            {
+                ModelState.AddModelError(nameof(model.Name), NameExists);
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            await organizerService.CreateAsync(User.Id(), model.Name, model.PhoneNumber, model.BriefPresentation= "", model.UrlWebsite= "");
+
             return RedirectToAction(nameof(EventController.All), "Event");
         }
     }
