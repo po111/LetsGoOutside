@@ -15,6 +15,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IArticleService, ArticleService>();
             services.AddScoped<IEventService, EventService>();
+            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IOrganizerService, OrganizerService>();
             
             
             return services;
