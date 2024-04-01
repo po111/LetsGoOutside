@@ -1,6 +1,8 @@
-﻿using LetsGoOutside.Core.Models.Home;
+﻿using LetsGoOutside.Core.Contracts;
+using LetsGoOutside.Core.Models.Home;
 using LetsGoOutside.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 
 namespace LetsGoOutside.Controllers
@@ -8,15 +10,31 @@ namespace LetsGoOutside.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IArticleService articleService;
+        private readonly IEventService eventService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            IArticleService _articleService,
+            IEventService _eventService
+            )
         {
             _logger = logger;
+            articleService = _articleService;
+            eventService = _eventService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = new IndexViewModel();
+            var model1 = await articleService.LastFourArticlesAsync();
+
+            var model2 = await eventService.LastFourEventsAsync();
+
+            var model = new IndexViewModel()
+            {
+                ArticleModels = (List<IndexArticleModel>)model1,
+                EventModels = (List<IndexEventModel>)model2,
+            };
 
             return View(model);
         }
