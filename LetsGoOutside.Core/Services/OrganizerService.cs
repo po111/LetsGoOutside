@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace LetsGoOutside.Core.Services
 {
@@ -19,9 +20,19 @@ namespace LetsGoOutside.Core.Services
             repository = _repository;
         }
 
-        public Task CreateAsync(string userId, string phoneNumber, string name, string website = "")
+        public async Task CreateAsync(string userId, string phoneNumber, string name, string website = "", string briefPresentation = "")
         {
-            throw new NotImplementedException();
+            await repository.AddAsync(new Organizer()
+            {
+                UserId = userId,
+                Name = name, 
+                PhoneNumber = phoneNumber,
+                DateOfCreation = DateTime.Now,
+                UrlWebsite = website,
+                BriefPresentation = briefPresentation
+            });
+
+            await repository.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsByIdAsync(string userId)
@@ -30,14 +41,16 @@ namespace LetsGoOutside.Core.Services
                 .AnyAsync(a=>a.UserId == userId);
         }
 
-        public Task<bool> OrganizerWithPhoneNumberExistsAsync(string phoneNumber)
+        public async Task<bool> OrganizerWithPhoneNumberExistsAsync(string phoneNumber)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Organizer>()
+               .AnyAsync(a => a.PhoneNumber == phoneNumber);
         }
 
-        public Task<bool> OrganizerWithSameNameExistsAsync(string name)
+        public async Task<bool> OrganizerWithSameNameExistsAsync(string name)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Organizer>()
+               .AnyAsync(a => a.Name == name);
         }
     }
 }

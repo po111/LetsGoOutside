@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace LetsGoOutside.Core.Services
 {
+
     public class AuthorService : IAuthorService
     {
         private readonly IRepository repository;
@@ -19,14 +20,22 @@ namespace LetsGoOutside.Core.Services
             repository = _repository;
         }
 
-        public Task<bool> AuthorWithSameNameExistsAsync(string name)
+        public async Task<bool> AuthorWithSameNameExistsAsync(string name)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Author>()
+                .AnyAsync(a=>a.Name == name);
         }
 
-        public Task CreateAsync(string userId, string name)
+        public async Task CreateAsync(string userId, string name)
         {
-            throw new NotImplementedException();
+            await repository.AddAsync(new Author()
+            {
+                UserId = userId,
+                Name = name,
+                DateCreated = DateTime.Now
+            });
+
+            await repository.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsByIdAsync(string userId)
