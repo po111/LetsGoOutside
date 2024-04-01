@@ -26,10 +26,8 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [StringLength(OrganizerNameMaxLength)]
         public string Name { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(OrganizerBriefPresentationMaxLength)]
         [Comment("Organizer brief presentation")]
-        public string? BriefPresentation { get; set; } = string.Empty;
+        public string? BriefPresentation { get; set; } 
 
         [Required]
         [StringLength(OrganizerPhoneMaxLength)]
@@ -41,7 +39,7 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         public DateTime DateOfCreation { get; set; }
 
         [Comment("Organizer website")]
-        public string? UrlWebsite { get; set; }
+        public string? UrlWebsite { get; set; } 
 
         [Required]
         [Comment("User Identifier")]
