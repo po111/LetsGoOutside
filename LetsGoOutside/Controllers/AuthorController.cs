@@ -3,6 +3,7 @@ using LetsGoOutside.Core.Models.Author;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
+using System.Security.Claims;
 
 namespace LetsGoOutside.Controllers
 {
@@ -18,6 +19,11 @@ namespace LetsGoOutside.Controllers
         [HttpGet]
         public async Task<IActionResult> Become()
         {
+            if (await authorService.ExistsByIdAsync(User.Id())) 
+            {
+                return BadRequest();
+            }
+
             var model = new BecomeAuthorFormModel();
 
             return View(model);

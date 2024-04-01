@@ -1,6 +1,10 @@
 ﻿using LetsGoOutside.Core.Contracts;
+using LetsGoOutside.Core.Models.Author;
+using LetsGoOutside.Core.Models.Organizer;
+using LetsGoOutside.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace LetsGoOutside.Controllers
 {
@@ -13,9 +17,23 @@ namespace LetsGoOutside.Controllers
         {
             organizerService = _organizerService;       
         }
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Become()
         {
-            return View();
+            if (await organizerService.ExistsByIdAsync(User.Id()))
+            {
+                return BadRequest();
+            }
+
+            var model = new BecomeOrganizerFormModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Become(BecomeOrganizerFormModel model)
+        {
+            return RedirectToAction(nameof(EventController.All), "Event");
         }
     }
 }

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LetsGoOutside.Core.Contracts
+﻿namespace LetsGoOutside.Core.Contracts
 {
     public interface IOrganizerService
     {
-        Task<bool> ExistsById(string userId);
+        Task<bool> ExistsByIdAsync(string userId);
+        Task<bool> OrganizerWithPhoneNumberExistsAsync(string phoneNumber);
+        Task<bool> OrganizerWithSameNameExistsAsync(string name);
+
+        Task CreateAsync(string userId, string phoneNumber, string name, string website = "");
     }
 }

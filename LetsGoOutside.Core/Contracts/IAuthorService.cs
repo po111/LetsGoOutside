@@ -8,6 +8,10 @@ namespace LetsGoOutside.Core.Contracts
 {
     public interface IAuthorService
     {
-        Task<bool> ExistsById(string userId);
+        Task<bool> ExistsByIdAsync(string userId);
+
+        Task<bool> AuthorWithSameNameExistsAsync(string name);
+
+        Task CreateAsync(string userId, string name);
     }
 }
