@@ -1,13 +1,20 @@
-﻿using LetsGoOutside.Core.Models.Author;
+﻿using LetsGoOutside.Core.Contracts;
+using LetsGoOutside.Core.Models.Author;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 
 namespace LetsGoOutside.Controllers
 {
-    [Authorize]
-    public class AuthorController : Controller
+    public class AuthorController : BaseController
     {
+        private readonly IAuthorService authorService;
+
+        public AuthorController(IAuthorService _authorService)
+        {
+                authorService = _authorService;
+        }
+
         [HttpGet]
         public async Task<IActionResult> Become()
         {

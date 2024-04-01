@@ -4,11 +4,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetsGoOutside.Controllers
-{ 
-    [Authorize]
-    public class EventController : Controller
+{
+    public class EventController : BaseController
     {
-    [AllowAnonymous]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> All()
         {
@@ -25,6 +24,7 @@ namespace LetsGoOutside.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
@@ -55,9 +55,9 @@ namespace LetsGoOutside.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id,  EventFormModel model)
+        public async Task<IActionResult> Edit(int id, EventFormModel model)
         {
-            return RedirectToAction(nameof(Details), new {id="1"});
+            return RedirectToAction(nameof(Details), new { id = "1" });
         }
 
         [HttpGet]

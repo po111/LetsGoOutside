@@ -1,13 +1,14 @@
 ﻿using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Models.Home;
 using LetsGoOutside.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 
 namespace LetsGoOutside.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IArticleService articleService;
@@ -24,6 +25,7 @@ namespace LetsGoOutside.Controllers
             eventService = _eventService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var model1 = await articleService.LastFourArticlesAsync();
@@ -39,6 +41,7 @@ namespace LetsGoOutside.Controllers
             return View(model);
         }
 
+        [Authorize]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

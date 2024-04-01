@@ -1,11 +1,18 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using LetsGoOutside.Core.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetsGoOutside.Controllers
 {
-    [Authorize]
-    public class OrganizerController : Controller
+    public class OrganizerController : BaseController
     {
+
+        private readonly IOrganizerService organizerService;
+
+        public OrganizerController(IOrganizerService _organizerService)
+        {
+            organizerService = _organizerService;       
+        }
         public IActionResult Index()
         {
             return View();

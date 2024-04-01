@@ -6,8 +6,7 @@ using System.Formats.Asn1;
 
 namespace LetsGoOutside.Controllers
 {
-    [Authorize]
-    public class ArticleController : Controller
+    public class ArticleController : BaseController
     {
         [AllowAnonymous]
         [HttpGet]
