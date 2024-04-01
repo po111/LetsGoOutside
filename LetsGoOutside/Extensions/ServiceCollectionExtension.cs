@@ -1,6 +1,10 @@
-﻿using LetsGoOutside.Infrastructure.Data;
+﻿using LetsGoOutside.Core.Contracts;
+using LetsGoOutside.Core.Services;
+using LetsGoOutside.Infrastructure.Data;
+using LetsGoOutside.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.Design;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -9,7 +13,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-           
+            services.AddScoped<IArticleService, ArticleService>();
+            services.AddScoped<IEventService, EventService>();
+            
+            
             return services;
         }
 
@@ -19,6 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDbContext<LetsGoOutsideDbContext>(options =>
                 options.UseSqlServer(connectionString));
 
+            services.AddScoped<IRepository, Repository>();
 
             services.AddDatabaseDeveloperPageExceptionFilter();
 
