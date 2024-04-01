@@ -6,6 +6,7 @@ using static LetsGoOutside.Infrastructure.Constants.DataConstants;
 
 namespace LetsGoOutside.Infrastructure.Data.Models
 {
+    [Index(nameof(Name), IsUnique = true)]
     [Comment("Author of content")]
     public class Author
     {

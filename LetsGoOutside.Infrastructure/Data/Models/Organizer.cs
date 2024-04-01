@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 namespace LetsGoOutside.Infrastructure.Data.Models
 {
     [Index(nameof(PhoneNumber), IsUnique = true)]
+    [Index(nameof(Name), IsUnique = true)]
     [Comment("Organizer of events")]
     public class Organizer
     {
@@ -28,7 +29,7 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [Required]
         [StringLength(OrganizerBriefPresentationMaxLength)]
         [Comment("Organizer brief presentation")]
-        public string BriefPresentation { get; set; } = string.Empty;
+        public string? BriefPresentation { get; set; } = string.Empty;
 
         [Required]
         [StringLength(OrganizerPhoneMaxLength)]

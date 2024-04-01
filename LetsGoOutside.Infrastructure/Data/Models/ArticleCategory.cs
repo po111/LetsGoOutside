@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LetsGoOutside.Infrastructure.Data.Models
 {
-    internal class ArticleCategory
+    public class ArticleCategory
     {
         public int ArticleId { get; set; }
 

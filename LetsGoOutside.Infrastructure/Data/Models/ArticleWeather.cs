@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LetsGoOutside.Infrastructure.Data.Models
 {
-    internal class ArticleWeather
+    public class ArticleWeather
     {
         public int ArticleId { get; set; }
 

@@ -40,13 +40,13 @@ namespace LetsGoOutside.Infrastructure.Data.Models
 
         
         [Comment("Start date of event")]
-        public DateTime? StartDate { get; set; }
+        public DateTime StartDate { get; set; }
 
         [Comment("End date of event")]
-        public DateTime? EndDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         [Comment("Event image url")]
-        public string? ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = null!;
 
         [Comment("Event hyperlink")]
         public string EventHyperlink { get; set; } = string.Empty;
