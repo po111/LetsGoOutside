@@ -15,6 +15,9 @@ namespace LetsGoOutside.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<UserArticle>()
+                .HasKey(ua => new { ua.UserId, ua.ArticleId });
+
             //builder.Entity<ArticleCategory>()
             //    .HasOne(ac => ac.Article)
             //    .WithMany(a => a.ArticleCategories)
