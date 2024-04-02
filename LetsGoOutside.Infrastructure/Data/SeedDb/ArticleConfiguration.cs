@@ -11,7 +11,7 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
             
             var data = new SeedData();
 
-            builder.HasData(new Article[] { data.FirstArticle/*, data.SecondArticle, data.ThirdArticle, data.ForthArticle, data.FifthArticle */});
+            builder.HasData(new Article[] { data.FirstArticle, data.SecondArticle, data.ThirdArticle, data.ForthArticle, data.FifthArticle });
         }
     }
 }

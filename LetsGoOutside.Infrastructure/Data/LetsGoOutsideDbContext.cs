@@ -15,8 +15,7 @@ namespace LetsGoOutside.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<UserArticle>()
-                .HasKey(ua => new { ua.UserId, ua.ArticleId });
+            
 
             //builder.Entity<ArticleCategory>()
             //    .HasOne(ac => ac.Article)
@@ -48,6 +47,9 @@ namespace LetsGoOutside.Infrastructure.Data
         public DbSet<Article> Articles { get; set; } = null!;
         public DbSet<Category> Categories { get; set; } = null!;
         public DbSet<Weather> Weathers { get; set; } = null!;
+
+        public DbSet<ArticleCategory> ArticlesCategories { get; set; } = null!;
+        public DbSet<ArticleWeather> ArticlesWeathers { get; set; } = null!;
 
     }
 }

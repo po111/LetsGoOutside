@@ -36,7 +36,7 @@ namespace LetsGoOutside.Infrastructure.Data.Models
 
         [Required]
         [Comment("Organizer date of creation")]
-        public DateTime DateOfCreation { get; set; }
+        public DateTime DateCreated { get; set; }
 
         [Comment("Organizer website")]
         public string? UrlWebsite { get; set; } 

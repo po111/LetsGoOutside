@@ -45,13 +45,13 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [ForeignKey(nameof(AuthorId))]
         public Author Author { get; set; } = null!;
 
-        
-        [Comment("List of categories")]
-        public List<Category> ArticleCategories { get; set; } =  new List<Category>();
 
-        
+        [Comment("List of categories")]
+        public List<ArticleCategory> ArticlesCategories { get; set; } = new List<ArticleCategory>();
+
+
         [Comment("List of appropriate weather")]
-        public List<Weather> ArticleWeathers { get; set; } = new List<Weather>();
+        public List<ArticleWeather> ArticlesWeathers { get; set; } = new List<ArticleWeather>();
 
         [Comment("Article source hyperlink")]
         public string HyperlinkSource { get; set; } = string.Empty;
@@ -60,8 +60,7 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [Comment("ApprovedByAdmin")]
         public bool IsApproved { get; set; } = false;
 
-        public ICollection<UserArticle> Likes { get; set; } = new List<UserArticle>();
-
+        
 
 
 
