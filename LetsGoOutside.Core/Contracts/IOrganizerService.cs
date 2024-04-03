@@ -7,5 +7,7 @@
         Task<bool> OrganizerWithSameNameExistsAsync(string name);
 
         Task CreateAsync(string userId, string phoneNumber, string name, string website = "", string briefPresentation = "");
+
+        Task<int?> GetOrganizerIdAsync(string userId);
     }
 }

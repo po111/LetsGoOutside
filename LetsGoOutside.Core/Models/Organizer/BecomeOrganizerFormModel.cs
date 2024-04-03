@@ -22,8 +22,11 @@ namespace LetsGoOutside.Core.Models.Organizer
         public string Name { get; set; } = null!;
 
         
+        [Display(Name = "Кратко представяне")]
         public string? BriefPresentation { get; set; } = string.Empty;
 
+        [Display(Name="Уебсайт")]
+        //[RegularExpression(@"^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$", ErrorMessage=WebsiteNotOK)]
         public string? UrlWebsite { get; set; } = string.Empty;
     }
 }

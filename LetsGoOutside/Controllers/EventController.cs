@@ -1,12 +1,26 @@
-﻿using LetsGoOutside.Core.Models.Article;
+﻿using LetsGoOutside.Attributes;
+using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Models.Event;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using static LetsGoOutside.Core.Constants.MessageConstants;
 
 namespace LetsGoOutside.Controllers
 {
     public class EventController : BaseController
     {
+
+        private readonly IOrganizerService organizerService;
+        private readonly IEventService eventService;
+
+        public EventController(
+            IOrganizerService _organizerService,
+            IEventService _eventService)
+        {
+            organizerService = _organizerService;
+            eventService = _eventService;
+        }
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> All()
@@ -34,15 +48,43 @@ namespace LetsGoOutside.Controllers
         }
 
         [HttpGet]
+        [MustBeOrganizer]
         public IActionResult Add()
         {
-            return View();
+            var model = new EventFormModel();
+
+            return View(model);
         }
 
         [HttpPost]
+        [MustBeOrganizer]
         public async Task<IActionResult> Add(EventFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = "1" });
+           
+            DateTime rightStartDate = DateTime.UtcNow;
+
+            if (DateTime.TryParse(model.StartDate.ToString(), out rightStartDate)==false)
+            {
+                ModelState.AddModelError(nameof(model.StartDate), DateWrong);
+            }
+
+            DateTime rightEndDate = DateTime.UtcNow;
+
+            if (DateTime.TryParse(model.EndDate.ToString(), out rightEndDate) == false)
+            {
+                ModelState.AddModelError(nameof(model.EndDate), DateWrong);
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            int? organizerId = await organizerService.GetOrganizerIdAsync(User.Id());
+
+            int newEventId = await eventService.CreateAsync(model, organizerId ?? 0);
+
+            return RedirectToAction(nameof(Details), new { id = newEventId });
         }
 
         [HttpGet]

@@ -1,4 +1,5 @@
 ﻿using LetsGoOutside.Core.Contracts;
+using LetsGoOutside.Core.Models.Event;
 using LetsGoOutside.Core.Models.Home;
 using LetsGoOutside.Infrastructure.Data.Common;
 using LetsGoOutside.Infrastructure.Data.Models;
@@ -19,6 +20,28 @@ namespace LetsGoOutside.Core.Services
         {
             repository = _repository;
         }
+
+        public async Task<int> CreateAsync(EventFormModel model, int organizerId)
+        {
+            var newEvent = new Event()
+            {
+                Title = model.Title,
+                BriefIntroduction = model.BriefIntroduction,
+                Description = model.Description,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                OrganizerId = organizerId,
+                DateCreated = DateTime.UtcNow,
+                ImageUrl = model.ImageUrl,
+                EventHyperlink = model.EventHyperlink
+            };
+
+            await repository.AddAsync(newEvent);
+            await repository.SaveChangesAsync();
+
+            return newEvent.Id;
+        }
+
         public async Task<IEnumerable<IndexEventModel>> LastFourEventsAsync()
         {
             return await repository

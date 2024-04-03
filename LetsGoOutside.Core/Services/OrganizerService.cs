@@ -52,5 +52,11 @@ namespace LetsGoOutside.Core.Services
             return await repository.AllReadOnly<Organizer>()
                .AnyAsync(a => a.Name == name);
         }
+
+        public async Task<int?> GetOrganizerIdAsync(string userId)
+        {
+            return (await repository.AllReadOnly<Organizer>()
+                .FirstOrDefaultAsync(a => a.UserId == userId))?.Id;
+        }
     }
 }
