@@ -13,5 +13,7 @@ namespace LetsGoOutside.Core.Contracts
         Task<bool> AuthorWithSameNameExistsAsync(string name);
 
         Task CreateAsync(string userId, string name);
+
+        Task<int?> GetAuthorIdAsync(string userId);
     }
 }

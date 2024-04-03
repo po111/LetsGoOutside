@@ -8,7 +8,7 @@ namespace LetsGoOutside.Infrastructure.Data.Common
 
         public Repository(LetsGoOutsideDbContext _context)
         {
-                context = _context;
+            context = _context;
         }
 
         private DbSet<T> DbSet<T>() where T : class
@@ -18,7 +18,7 @@ namespace LetsGoOutside.Infrastructure.Data.Common
 
         public IQueryable<T> All<T>() where T : class
         {
-            return DbSet<T>();  
+            return DbSet<T>();
         }
 
         public IQueryable<T> AllReadOnly<T>() where T : class
@@ -32,9 +32,11 @@ namespace LetsGoOutside.Infrastructure.Data.Common
             await DbSet<T>().AddAsync(entity);
         }
 
-        public async Task <int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync()
         {
             return await context.SaveChangesAsync();
         }
+
+        
     }
 }

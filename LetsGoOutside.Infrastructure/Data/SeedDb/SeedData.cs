@@ -359,20 +359,6 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
                
             };
 
-            //FirstArticle.ArticleWeathers.Add(SpringWeather);
-            //FirstArticle.ArticleCategories.Add(ActivityCategory);
-
-            //FirstArticle.ArticleWeathers = new List<Weather>() { SpringWeather, SunnyWeather, SummerWeather, HotWeather };
-
-            //.AddRange(new List<Weather>() { SpringWeather, SunnyWeather, SummerWeather, HotWeather });
-            //FirstArticle.ArticleCategories = new List<Category>() { ActivityCategory, KidsCategory, FoodCategory };
-            //FirstArticle.ArticleWeathers = new List<Weather>() { SpringWeather, SunnyWeather, SummerWeather, HotWeather };
-
-            //FirstArticle.ArticleCategories.AddRange(new List<Category>() { ActivityCategory, KidsCategory });
-            //AddRange(new List<Category> {  });
-            //FirstArticle.ArticleWeathers.AddRange(new List<Weather>() { HotWeather, SpringWeather });
-            ////FirstArticle.ArticleWeathers.AddRange(new List<Weather> { SpringWeather, SunnyWeather, SummerWeather, HotWeather });
-
             SecondArticle = new Article()
             {
                 Id = 2,
@@ -386,9 +372,6 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
 
             };
 
-            //SecondArticle.ArticleCategories.AddRange(new List<Category> { KidsCategory, RelaxCategory });
-            //SecondArticle.ArticleWeathers.AddRange(new List<Weather> { HotWeather, SnowyWeather, SunnyWeather, SpringWeather, WindyWeather, WinterWeather, SummerWeather, AutumnWeather, ColdWeather });
-
             ThirdArticle = new Article()
             {
                 Id = 3,
@@ -400,9 +383,6 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
                 HyperlinkSource = "https://www.10te.bg/obshtestvo/10-ot-nai-populyarnite-festivali-i-sabori-na-narodnoto-tvorchestvo-v-balgariya/",
                 AuthorId = Author1.Id
             };
-
-            //ThirdArticle.ArticleCategories.AddRange(new List<Category> { FunCategory, KidsCategory, ActivityCategory });
-            //ThirdArticle.ArticleWeathers.AddRange(new List<Weather> { SummerWeather, SpringWeather, AutumnWeather });
 
             ForthArticle = new Article()
             {
@@ -416,9 +396,6 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
                 AuthorId = Author2.Id
             };
 
-            //ForthArticle.ArticleCategories.AddRange(new List<Category> { FunCategory, RelaxCategory, KidsCategory, FoodCategory });
-            //ForthArticle.ArticleWeathers.AddRange(new List<Weather> { SnowyWeather, WinterWeather, SpringWeather, SummerWeather, HotWeather, SunnyWeather });
-
             FifthArticle = new Article()
             {
                 Id = 5,
@@ -429,25 +406,9 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
                 DateCreated = DateTime.Now.AddDays(-20),
                 HyperlinkSource = "https://trip.dir.bg/patevoditel/7-ot-nay-tsvetnite-mesta-v-balgariya-snimki",
                 AuthorId = Author1.Id,
-                //ArticleCategories = new List<Category> { KidsCategory, FunCategory, RelaxCategory }
             };
-
-
-            //FifthArticle.ArticleWeathers.AddRange(new List<Weather> { WinterWeather, WindyWeather, HotWeather, SunnyWeather, SpringWeather, AutumnWeather, SummerWeather, WetWeather, SnowyWeather, ColdWeather });
         }
 
-        //private void SeedArticleCategory()
-        //{
-        //    ArticleCategories = new ArticleCategory() { ArticleId = FirstArticle.Id, CategoryId = FoodCategory.Id };
-
-        //    ArticleCategories.ArticleId = FirstArticle.Id;
-        //    ArticleCategories.CategoryId = KidsCategory.Id;
-
-        //    ArticleCategories.ArticleId = FirstArticle.Id;
-        //    ArticleCategories
-        //        Add({ArticleId = FirstArticle.Id, ActivityCategory.Id }, { FirstArticle.Id, KidsCategory.Id } };
-
-        //}
         private void SeedEvents()
         {
             FirstEvent = new Event()

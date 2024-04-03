@@ -43,5 +43,11 @@ namespace LetsGoOutside.Core.Services
             return await repository.AllReadOnly<Author>()
                 .AnyAsync(a => a.UserId == userId);
         }
+
+        public async Task<int?> GetAuthorIdAsync(string userId)
+        {
+            return (await repository.AllReadOnly<Author>()
+                .FirstOrDefaultAsync(a => a.UserId == userId))?.Id;
+        }
     }
 }

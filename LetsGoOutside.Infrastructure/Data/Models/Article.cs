@@ -35,6 +35,7 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         //[Comment("Date modified")]
         //public DateTime? DateModified { get; set; }
 
+        [Required]
         [Comment("Article image url")]
         public string ImageUrl { get; set; } = null!;
 
@@ -54,7 +55,7 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         public List<ArticleWeather> ArticlesWeathers { get; set; } = new List<ArticleWeather>();
 
         [Comment("Article source hyperlink")]
-        public string HyperlinkSource { get; set; } = string.Empty;
+        public string? HyperlinkSource { get; set; }
 
         [Required]
         [Comment("ApprovedByAdmin")]
