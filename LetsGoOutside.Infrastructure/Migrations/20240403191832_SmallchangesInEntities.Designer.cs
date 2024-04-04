@@ -4,6 +4,7 @@ using LetsGoOutside.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LetsGoOutside.Infrastructure.Migrations
 {
     [DbContext(typeof(LetsGoOutsideDbContext))]
-    partial class LetsGoOutsideDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240403191832_SmallchangesInEntities")]
+    partial class SmallchangesInEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
