@@ -48,11 +48,11 @@ namespace LetsGoOutside.Infrastructure.Data.Models
 
 
         [Comment("List of categories")]
-        public List<ArticleCategory> ArticlesCategories { get; set; } = new List<ArticleCategory>();
+        public virtual ICollection<ArticleCategory> ArticlesCategories { get; set; } = new List<ArticleCategory>();
 
 
         [Comment("List of appropriate weather")]
-        public List<ArticleWeather> ArticlesWeathers { get; set; } = new List<ArticleWeather>();
+        public virtual ICollection<ArticleWeather> ArticlesWeathers { get; set; } = new List<ArticleWeather>();
 
         [Comment("Article source hyperlink")]
         public string? HyperlinkSource { get; set; }

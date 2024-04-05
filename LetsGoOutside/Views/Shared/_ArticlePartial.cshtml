@@ -1,0 +1,23 @@
+﻿@model ArticleServiceModel
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Article Image">
+        <div class="card-body text-center">
+            <h4>@Model.Title</h4>
+            <h6>Кратко представяне: <b>@Model.BriefDescription</b></h6>
+            <h6>Автор: <b>@Model.AuthorName</b></h6>
+            <br />
+            <a asp-controller="Article" asp-action="Details" asp-route-id="@Model.Id"
+               class="btn btn-success">Details</a>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Article" asp-action="Edit" asp-route-id="@Model.Id"
+                   class="btn btn-warning">Edit</a>
+                <a asp-controller="Article" asp-action="Delete" asp-route-id="@Model.Id"
+                   class="btn btn-danger">Delete</a>
+                <p></p>
+            }
+        </div>
+    </div>
+</div>

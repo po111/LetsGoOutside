@@ -31,7 +31,7 @@
         public const int EventTitleMaxLength = 70;
 
         public const int EventAddressMinLength = 10;
-        public const int EventAddressMaxLength = 60;
+        public const int EventAddressMaxLength = 150;
 
         public const int EventDescriptionMinLength = 50;
         public const int EventDescriptionMaxLength = 3000;

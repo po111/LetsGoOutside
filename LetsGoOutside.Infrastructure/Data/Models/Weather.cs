@@ -23,6 +23,6 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         public string Name { get; set; } = string.Empty;
 
         [Comment("List of articles with certain weather type")]
-        public List<ArticleWeather> ArticlesWeathers { get; set; } = new List<ArticleWeather>();
+        public virtual ICollection <ArticleWeather> ArticlesWeathers { get; set; } = new List<ArticleWeather>();
     }
 }

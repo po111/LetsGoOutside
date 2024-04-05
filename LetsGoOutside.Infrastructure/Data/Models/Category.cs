@@ -25,6 +25,6 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         public string Name { get; set; } = string.Empty;
 
         [Comment("List of articles with certain category")]
-        public List<ArticleCategory> ArticlesCategories { get; set; } = new List<ArticleCategory>();
+        public virtual ICollection<ArticleCategory> ArticlesCategories { get; set; } = new List<ArticleCategory>();
     }
 }
