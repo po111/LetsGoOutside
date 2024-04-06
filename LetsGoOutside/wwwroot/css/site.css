@@ -2,8 +2,17 @@ html {
   font-size: 14px;
 }
 
-body{
-    background-image: url('~/background_picture.jpg');
+#whiteletters{
+    color:whitesmoke
+}
+
+#fixpic img{
+height : 300px;
+}
+
+body {
+    background-image: url('/backgroundPicture11.jpg');
+    background-size: 100%;
     margin: 0;
 }
 
