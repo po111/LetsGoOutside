@@ -11,6 +11,7 @@ namespace LetsGoOutside.Core.Models.Home
         public int Id { get; set; }
         public string Title { get; set; } = null!;
         public string BriefIntroduction { get; set; } = null!;
+        public string OrganizerName { get; set; } = null!;
         public string ImageUrl { get; set; } = null!;
         public string StartDate { get; set; } = null!;
         public string EndDate { get; set; } = null!;

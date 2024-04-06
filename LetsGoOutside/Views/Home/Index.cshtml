@@ -7,11 +7,12 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Добре дошли, тук ще намерите хиляди причини да излезете навън и да се забавлявате!</h1>
+    <h1 id="whiteletters" class="display-4">Добре дошли, тук ще намерите хиляди причини да излезете навън и да се забавлявате!</h1>
 </div>
-<div>
-    <div>
-        @if(!articles.Any())
+<div style="width:100%;height:650px;">
+    <div style="width:50%;height:550px;float:left;">
+
+        @if (!articles.Any())
         {
             <div>
                 <p class="lead">
@@ -19,15 +20,50 @@
                 </p>
                 <hr class="my-4" />
                 <p class="lead">
-                    @if(User?.Identity?.IsAuthenticated ?? false)
+                    @if (User?.Identity?.IsAuthenticated ?? false)
                     {
                         <a asp-controller="Article" asp-action="Add" class="btn btn-primary btn-lg" role="button">Добави статия</a>
                     }
                 </p>
             </div>
         }
-    </div>
-    <div>
+        <h2 id="whiteletters">Последни статии</h2>
+        <div>
+            <div class="row">
+                @foreach (var article in articles)
+                {
+                    <partial name="_ArticleIndexPartial" model="@article" />
+                }
+            </div>
+            <a asp-area="" asp-controller="Article" asp-action="All">Виж всички статии</a>
 
+        </div>
+    </div>
+    <div style="width:50%;height:550px;float:left;">
+        @if (!events.Any())
+        {
+            <div>
+                <p class="lead">
+                    Няма публикувани събития. Желаете ли да добавите събитие?
+                </p>
+                <hr class="my-4" />
+                <p class="lead">
+                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    {
+                        <a asp-controller="Event" asp-action="Add" class="btn btn-primary btn-lg" role="button">Добави събитие</a>
+                    }
+                </p>
+            </div>
+        }
+        <h2 id="whiteletters">Последни събития</h2>
+        <div>
+            <div class="row">
+                @foreach (var eventt in events)
+                {
+                    <partial name="_EventIndexPartial" model="@eventt" />
+                }
+            </div>
+            <a asp-area="" asp-controller="Event" asp-action="All">Виж всички събития</a>
+        </div>
     </div>
 </div>

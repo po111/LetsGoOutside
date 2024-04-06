@@ -12,5 +12,7 @@ namespace LetsGoOutside.Core.Models.Home
         public string Title { get; set; } = null!;
         public string BriefIntroduction { get; set; } = null!;
         public string ImageUrl { get; set; } = null!;
+
+        public string AuthorName { get; set; } = null!;
     }
 }
