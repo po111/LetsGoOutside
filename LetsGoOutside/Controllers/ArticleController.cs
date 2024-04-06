@@ -24,23 +24,23 @@ namespace LetsGoOutside.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery]AllArticlesQueryModel query)
+        public async Task<IActionResult> All([FromQuery]AllArticlesQueryModel model)
         {
-            var model = await articleService.AllAsync(
-                query.Category,
-                query.Weather,
-                query.SearchTerm,
-                query.Sorting,
-                query.ArticlesPerPage,
-                query.CurrentPage);
+            var articles = await articleService.AllAsync(
+                model.Category,
+                model.Weather,
+                model.SearchTerm,
+                model.Sorting,
+                model.ArticlesPerPage,
+                model.CurrentPage);
 
-            query.TotalArticlesCount = model.TotalArticlesCount;
-            query.Articles = model.Articles;
+            model.TotalArticlesCount = articles.TotalArticlesCount;
+            model.Articles = articles.Articles;
 
-            query.Categories = await articleService.AllCategoriesNamesAsync();
-            query.Weathers = await articleService.AllWeatherNamesAsync();
+            model.Categories = await articleService.AllCategoriesNamesAsync();
+            model.Weathers = await articleService.AllWeatherNamesAsync();
 
-            return View(query);
+            return View(model);
         }
 
         [HttpGet]

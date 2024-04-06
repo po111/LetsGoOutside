@@ -27,7 +27,12 @@ namespace LetsGoOutside.Core.Contracts
             int articlesPerPage = 1);
 
         Task<IEnumerable<string>> AllCategoriesNamesAsync();
+
         Task<IEnumerable<string>> AllWeatherNamesAsync();
+
+        Task<IEnumerable<ArticleServiceModel>> AllArticlesByAgentIdAsync(int agentId);
+
+        Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId); 
 
     }
 }

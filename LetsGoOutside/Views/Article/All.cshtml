@@ -11,7 +11,7 @@
     <div class="row">
         <div class="form-group col-md-3 d-flex justify-content-between">
             <div class="form-group">
-                <label asp-for="Category"></label>
+                <label asp-for="Category">Категория</label>
                 <select asp-for="Category" class="form-control">
                     <option value="">All</option>
                     @foreach (var category in Model.Categories)
@@ -23,7 +23,7 @@
         </div>
         <div class="form-group col-md-3 d-flex justify-content-between">
             <div class="form-group">
-                <label asp-for="Weather"></label>
+                <label asp-for="Weather">Подходящо време</label>
                 <select asp-for="Weather" class="form-control">
                     <option value="">All</option>
                     @foreach (var weather in Model.Weathers)
@@ -41,7 +41,7 @@
 
         <div class="form-group col-md-3">
             <div class="form-group">
-                <label asp-for="Sorting"></label>
+                <label asp-for="Sorting">Подреждане</label>
                 <select asp-for="Sorting" class="form-control">
                     <option value="0">Най-нови</option>
                     <option value="1">Най-стари</option>
@@ -51,9 +51,9 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="text-center">
             <div class="form-group mt-4 p-2">
-                <input type="submit" value="Search" class="btn btn-primary" />
+                <input type="submit" value="Търсене" class="btn btn-primary" />
             </div>
         </div>
     </div>

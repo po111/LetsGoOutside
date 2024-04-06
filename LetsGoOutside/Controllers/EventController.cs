@@ -1,6 +1,8 @@
 ﻿using LetsGoOutside.Attributes;
 using LetsGoOutside.Core.Contracts;
+using LetsGoOutside.Core.Models.Article;
 using LetsGoOutside.Core.Models.Event;
+using LetsGoOutside.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -23,12 +25,20 @@ namespace LetsGoOutside.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery] AllEventsQueryModel model)
         {
-            var model = new AllEventsQueryModel();
+            var events = await eventService.AllAsync(
+                model.SearchTerm,
+                model.Sorting,
+                model.EventsPerPage,
+                model.CurrentPage);
+
+            model.TotalEventsCount = events.TotalEventsCount;
+            model.Events = events.Events;
 
             return View(model);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Mine()
