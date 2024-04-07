@@ -43,7 +43,19 @@ namespace LetsGoOutside.Controllers
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
-            var model = new AllEventsQueryModel();
+            var userId = User.Id();
+            IEnumerable<EventServiceModel> model;
+
+            if (await organizerService.ExistsByIdAsync(userId))
+            {
+                int organizerId = await organizerService.GetOrganizerIdAsync(userId) ?? 0;
+                model = await eventService.AllEventsByOrganizerIdAsync(organizerId);
+            }
+
+            else
+            {
+                return RedirectToAction(nameof(All));
+            }
 
             return View(model);
         }

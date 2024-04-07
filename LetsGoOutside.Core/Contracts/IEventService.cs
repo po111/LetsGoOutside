@@ -20,6 +20,9 @@ namespace LetsGoOutside.Core.Contracts
             EventSorting sorting = EventSorting.Newest,
             int currentPage = 1,
             int eventsPerPage = 1);
+        Task<IEnumerable<EventServiceModel>> AllEventsByOrganizerIdAsync(int agentId);
+
+        Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId);
 
     }
 }

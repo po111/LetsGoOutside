@@ -62,8 +62,8 @@ namespace LetsGoOutside.Core.Services
                     BriefDescription = a.BriefIntroduction,
                     OrganizerName = a.Organizer.Name,
                     ImageUrl = a.ImageUrl,
-                    StartDate = a.StartDate.ToString("dd/MM/yyyy hh:mm"),
-                    EndDate = a.EndDate.ToString("dd/MM/yyyy hh:mm")
+                    StartDate = a.StartDate.ToString("dd/MM/YYYY hh:mm"),
+                    EndDate = a.EndDate.ToString("dd/MM/YYYY hh:mm")
 
                 })
                 .ToListAsync();
@@ -115,6 +115,19 @@ namespace LetsGoOutside.Core.Services
                     EndDate = x.EndDate.ToString("dd/MM/YYYY HH:mm")
                 })
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<EventServiceModel>> AllEventsByOrganizerIdAsync(int organizerId)
+        {
+            return await repository.AllReadOnly<Event>()
+                .Where(e => e.OrganizerId == organizerId)
+                .ProjectToEventServiceModel()
+                .ToListAsync();
+        }
+
+        public Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId)
+        {
+            throw new NotImplementedException();
         }
 
     }
