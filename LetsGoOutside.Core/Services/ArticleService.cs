@@ -5,8 +5,11 @@ using LetsGoOutside.Core.Models.Home;
 using LetsGoOutside.Infrastructure.Data.Common;
 using LetsGoOutside.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Expressions;
+using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace LetsGoOutside.Core.Services
 {
@@ -169,7 +172,53 @@ namespace LetsGoOutside.Core.Services
             }).ToListAsync();
     }
 
-    public async Task<bool> CategoryExistsAsync(int categoryId)
+        public async Task<ArticleDetailsServiceModel> ArticleDetailsByIdAsync(int id)
+        {
+            var article = await repository.AllReadOnly<Article>()
+                .Include(a => a.ArticlesCategories)
+                .ThenInclude(ac =>ac.Category)
+                .Include(a => a.ArticlesWeathers)
+                .ThenInclude(aw=> aw.Weather)
+                .Where(a => a.Id == id)
+                .FirstAsync();
+
+            var categories = new List<String>();
+
+            foreach (var item in article.ArticlesCategories)
+            {
+                categories.Add(item.Category.Name);
+            }
+
+            var weathers = new List<string>();
+
+            foreach (var item in article.ArticlesWeathers)
+            {
+                weathers.Add(item.Weather.Name);
+            }
+
+            string [] splitContent = article.Content.Split("\r\n", StringSplitOptions.None);
+
+            var model =  await repository.AllReadOnly<Article>()
+                .Where(a => a.Id == id)
+                .Select(a => new ArticleDetailsServiceModel()
+                {
+                    Id = a.Id,
+                    BriefDescription = a.BriefIntroduction,
+                    Content = splitContent,
+                    ImageUrl = a.ImageUrl,
+                    DateCreated = a.DateCreated.ToString("dd/MM/YYYY"),
+                    Title = a.Title,
+                    AuthorName = a.Author.Name,
+                    HyperlinkSource = a.HyperlinkSource,
+                    categories = String.Join(", ", categories),
+                    weathers = String.Join(", ", weathers)
+                })
+                .FirstAsync();
+
+            return model;
+        }
+
+        public async Task<bool> CategoryExistsAsync(int categoryId)
     {
         return await repository.AllReadOnly<Category>().AnyAsync(c => c.Id == categoryId);
     }
@@ -210,7 +259,13 @@ namespace LetsGoOutside.Core.Services
         return article.Id;
     }
 
-    public async Task<IEnumerable<IndexArticleModel>> LastFourArticlesAsync()
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await repository.AllReadOnly<Article>()
+                .AnyAsync(a=>a.Id == id);
+        }
+
+        public async Task<IEnumerable<IndexArticleModel>> LastFourArticlesAsync()
     {
         return await repository
             .AllReadOnly<Article>()

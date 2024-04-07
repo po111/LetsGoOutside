@@ -1,9 +1,41 @@
-﻿@model EventDetailsViewModel
+﻿@model EventDetailsServiceModel
 
 
 @{
     ViewBag.Title = "Информация за събитието";
 }
 
-<h2 class="tet-center">@ViewBag.Title</h2>
+<h2 class="text-center">@ViewBag.Title</h2>
 <hr />
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-4">
+            <img class="card-img-top" style="width: 20rem;"
+                 src="@Model.ImageUrl" alt="House Image">
+        </div>
+        <div class="card col-8 border-0">
+            <p style="font-size:25px;"><u>@Model.Title</u></p>
+            <p>Located in: <b>@Model.Address</b></p>
+            
+            <p>@Model.Description</p>
+            <div class="form-inline">
+                @if (this.User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-warning" asp-controller="House" asp-action="Edit"
+                       asp-route-id="@Model.Id">Edit</a>
+                    <a class="ml-2 btn btn-danger" asp-controller="House" asp-action="Delete"
+                       asp-route-id="@Model.Id">Delete</a>
+                }
+            </div>
+            <p></p>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Agent Info</h5>
+                    <p class="card-text">Email:  @Model.OrganizerName</p>
+                    <p class="card-text">Phone Number: @Model.Organizer.PhoneNumber</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

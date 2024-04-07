@@ -38,13 +38,15 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [Comment("Date of creation of event")]
         public DateTime DateCreated { get; set; }
 
-        
+        [Required]
         [Comment("Start date of event")]
         public DateTime StartDate { get; set; }
 
+        [Required]
         [Comment("End date of event")]
         public DateTime EndDate { get; set; }
 
+        [Required]
         [Comment("Event image url")]
         public string ImageUrl { get; set; } = null!;
 
