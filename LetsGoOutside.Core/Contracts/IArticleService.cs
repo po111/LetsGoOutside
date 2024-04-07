@@ -30,7 +30,7 @@ namespace LetsGoOutside.Core.Contracts
 
         Task<IEnumerable<string>> AllWeatherNamesAsync();
 
-        Task<IEnumerable<ArticleServiceModel>> AllArticlesByAgentIdAsync(int agentId);
+        Task<IEnumerable<ArticleServiceModel>> AllArticlesByAuthorIdAsync(int authorId);
 
         Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId); 
 

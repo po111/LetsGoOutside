@@ -19,6 +19,19 @@ namespace LetsGoOutside.Core.Services
             repository = _repository;
         }
 
+        public async Task<IEnumerable<ArticleServiceModel>> AllArticlesByAuthorIdAsync(int authorId)
+        {
+            return await repository.AllReadOnly<Article>()
+                .Where(a=>a.AuthorId== authorId)
+                .ProjectToArticleServiceModel()
+                .ToListAsync();
+        }
+
+        public Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ArticleQueryServiceModel> AllAsync(
             string? category = null,
             string? weather = null,
@@ -75,7 +88,7 @@ namespace LetsGoOutside.Core.Services
             articlesToDisplay = sorting switch
             {
                 ArticleSorting.Author => articlesToDisplay
-                    .OrderByDescending(a => a.Author.Name)
+                    .OrderBy(a => a.Author.Name)
                     .ThenByDescending(a => a.Id),
                 ArticleSorting.Title => articlesToDisplay
                     .OrderBy(a => a.Title)
@@ -89,15 +102,15 @@ namespace LetsGoOutside.Core.Services
             var articles = await articlesToDisplay
                 .Skip((currentPage - 1) * articlesPerPage)
                 .Take(articlesPerPage)
-                .Select(a => new ArticleServiceModel()
-                {
-                    Id = a.Id,
-                    Title = a.Title,
-                    BriefDescription = a.BriefIntroduction,
-                    AuthorName = a.Author.Name,
-                    ImageUrl = a.ImageUrl,
+                .ProjectToArticleServiceModel()
+                //{
+                //    Id = a.Id,
+                //    Title = a.Title,
+                //    BriefDescription = a.BriefIntroduction,
+                //    AuthorName = a.Author.Name,
+                //    ImageUrl = a.ImageUrl,
 
-                })
+                //})
                 .ToListAsync();
 
             int articlesCount = await articlesToDisplay.CountAsync();
@@ -208,6 +221,7 @@ namespace LetsGoOutside.Core.Services
                 Id = x.Id,
                 Title = x.Title,
                 ImageUrl = x.ImageUrl,
+                AuthorName = x.Author.Name
             })
             .ToListAsync();
     }

@@ -1,9 +1,21 @@
-﻿@model AllArticlesQueryModel
+﻿@model IEnumerable<ArticleServiceModel>
 
 
 @{
     ViewBag.Title = "Моите статии";
 }
 
-<h2 class="tet-center">@ViewBag.Title</h2>
+<h2 class="text-center">@ViewBag.Title</h2>
 <hr />
+
+@if(!Model.Any())
+{
+    <h2 class="text-center">Нямате публикувани статии.</h2>
+}
+
+<div class="row">
+    @foreach(var article in Model)
+    {
+        <partial name="_ArticlePartial" model="@article" />
+    }
+</div>

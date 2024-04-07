@@ -24,7 +24,7 @@ namespace LetsGoOutside.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> All([FromQuery]AllArticlesQueryModel model)
+        public async Task<IActionResult> All([FromQuery] AllArticlesQueryModel model)
         {
             var articles = await articleService.AllAsync(
                 model.Category,
@@ -46,7 +46,19 @@ namespace LetsGoOutside.Controllers
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
-            var model = new AllArticlesQueryModel();
+            var userId = User.Id();
+            IEnumerable<ArticleServiceModel> model;
+
+            if (await authorService.ExistsByIdAsync(userId))
+            {
+                int authorId = await authorService.GetAuthorIdAsync(userId) ?? 0;
+                model = await articleService.AllArticlesByAuthorIdAsync(authorId);
+            }
+
+            else
+            {
+                return RedirectToAction(nameof(All));
+            }
 
             return View(model);
         }
@@ -83,8 +95,8 @@ namespace LetsGoOutside.Controllers
                     int categoryId = 0;
 
                     int.TryParse(categoryIdAsString, out categoryId);
-                
-                if (categoryId==0 ||await articleService.CategoryExistsAsync(categoryId)==false)
+
+                    if (categoryId == 0 || await articleService.CategoryExistsAsync(categoryId) == false)
                     {
                         ModelState.AddModelError(nameof(model.CategoryIDs), CategoryDoesNotExist);
                     }
@@ -99,7 +111,7 @@ namespace LetsGoOutside.Controllers
 
                     int.TryParse(weatherIdAsString, out weatherId);
 
-                    if (weatherId == 0 || await articleService.WeatherExistsAsync(weatherId)==false)
+                    if (weatherId == 0 || await articleService.WeatherExistsAsync(weatherId) == false)
                     {
                         ModelState.AddModelError(nameof(model.WeatherIDs), WeatherDoesNotExist);
                     }
