@@ -11,9 +11,9 @@ namespace LetsGoOutside.Core.Models.Article
 
         public string [] Content { get; set; } = null!;
 
-        public string DateCreated { get; set; } = null!;
+        public string? HyperlinkSource { get; set; }
 
-        public string? HyperlinkSource { get; set; } 
+        public string DateCreated { get; set; } = null!;
 
         public string? categories { get; set; } 
 

@@ -63,10 +63,15 @@ namespace LetsGoOutside.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = new ArticleDetailsViewModel();
+            if (await articleService.ExistsAsync(id)== false)
+            {
+                return BadRequest();
+            }
+            var model = await articleService.ArticleDetailsByIdAsync(id);
 
             return View(model);
         }
@@ -136,22 +141,101 @@ namespace LetsGoOutside.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            if(await articleService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
 
-            var model = new ArticleFormModel();
+            if (await articleService.HasAuthorWithIdAsync(id, User.Id())==false)
+            {
+                return Unauthorized();
+            }
+
+           
+
+            var model = await articleService.GetArticleEditFormModelByIdAsync(id);
 
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, ArticleFormModel model)
+        public async Task<IActionResult> Edit(int id, ArticleEditFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = "1" });
+            if (await articleService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await articleService.HasAuthorWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            if (model.CategoryIDs.Count() != 0)
+            {
+                foreach (var categoryIdAsString in model.CategoryIDs)
+                {
+                    int categoryId = 0;
+
+                    int.TryParse(categoryIdAsString, out categoryId);
+
+                    if (categoryId == 0 || await articleService.CategoryExistsAsync(categoryId) == false)
+                    {
+                        ModelState.AddModelError(nameof(model.CategoryIDs), CategoryDoesNotExist);
+                    }
+                }
+            }
+
+            if (model.WeatherIDs.Count() != 0)
+            {
+                foreach (var weatherIdAsString in model.WeatherIDs)
+                {
+                    int weatherId = 0;
+
+                    int.TryParse(weatherIdAsString, out weatherId);
+
+                    if (weatherId == 0 || await articleService.WeatherExistsAsync(weatherId) == false)
+                    {
+                        ModelState.AddModelError(nameof(model.WeatherIDs), WeatherDoesNotExist);
+                    }
+                }
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                model.Categories = (List<ArticleCategoryServiceModel>)await articleService.AllCategoriesAsync();
+                model.Weathers = (List<ArticleWeatherServiceModel>)await articleService.AllWeathersAsync();
+
+                return View(model);
+            }
+
+            await articleService.EditAsync(id, model);
+
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = new ArticleDetailsViewModel();
+            if (await articleService.ExistsAsync(id)== false)
+            {
+                return BadRequest();
+            }
+
+            if (await articleService.HasAuthorWithIdAsync(id, User.Id()) ==false)
+            {
+                return Unauthorized();
+            }
+
+            var article =  await articleService.ArticleDetailsByIdAsync(id);
+
+            var model = new ArticleDetailsViewModel()
+            {
+                Id = id,
+                BriefDescription = article.BriefDescription,
+                ImageUrl = article.ImageUrl,
+                Title = article.Title,
+            };
 
             return View(model);
         }
@@ -159,6 +243,18 @@ namespace LetsGoOutside.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(ArticleDetailsViewModel model)
         {
+            if (await articleService.ExistsAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await articleService.HasAuthorWithIdAsync(model.Id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            await articleService.DeleteAsync(model.Id);
+
             return RedirectToAction(nameof(All));
         }
     }

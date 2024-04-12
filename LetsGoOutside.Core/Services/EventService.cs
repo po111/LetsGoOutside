@@ -8,6 +8,7 @@ using LetsGoOutside.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,32 +40,31 @@ namespace LetsGoOutside.Core.Services
             eventsToDisplay = sorting switch
             {
                 EventSorting.OrganizerName => eventsToDisplay
-                    .OrderBy(a => a.Organizer.Name),
+                    .OrderBy(e => e.Organizer.Name),
                 EventSorting.Title => eventsToDisplay
-                    .OrderBy(a => a.Title),
+                    .OrderBy(e => e.Title),
                 EventSorting.StartDate => eventsToDisplay
-                    .OrderByDescending(a => a.StartDate)
-                    .ThenByDescending(a => a.Id),
+                    .OrderByDescending(e => e.StartDate)
+                    .ThenByDescending(e => e.Id),
                 EventSorting.EndDate => eventsToDisplay
-                    .OrderByDescending(a => a.EndDate)
-                    .ThenByDescending(a => a.Id),
+                    .OrderByDescending(e => e.EndDate)
+                    .ThenByDescending(e => e.Id),
                 _ => eventsToDisplay
-                .OrderByDescending(a => a.Id)
+                .OrderByDescending(e => e.Id)
             };
 
             var events = await eventsToDisplay
                 .Skip((currentPage - 1) * eventsPerPage)
                 .Take(eventsPerPage)
-                .Select(a => new EventServiceModel()
+                .Select(e => new EventServiceModel()
                 {
-                    Id = a.Id,
-                    Title = a.Title,
-                    BriefDescription = a.BriefIntroduction,
-                    OrganizerName = a.Organizer.Name,
-                    ImageUrl = a.ImageUrl,
-                    StartDate = a.StartDate.ToString("dd/MM/YYYY hh:mm"),
-                    EndDate = a.EndDate.ToString("dd/MM/YYYY hh:mm")
-
+                    Id = e.Id,
+                    Title = e.Title,
+                    BriefDescription = e.BriefIntroduction,
+                    OrganizerName = e.Organizer.Name,
+                    ImageUrl = e.ImageUrl,
+                    StartDate = e.StartDate.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture),
+                    EndDate = e.EndDate.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture)
                 })
                 .ToListAsync();
 
@@ -89,7 +89,8 @@ namespace LetsGoOutside.Core.Services
                 OrganizerId = organizerId,
                 DateCreated = DateTime.UtcNow,
                 ImageUrl = model.ImageUrl,
-                EventHyperlink = model.EventHyperlink
+                EventHyperlink = model.EventHyperlink,
+                Address = model.Address
             };
 
             await repository.AddAsync(newEvent);
@@ -102,17 +103,18 @@ namespace LetsGoOutside.Core.Services
         {
             return await repository
                 .AllReadOnly<Event>()
-                .OrderByDescending(x => x.Id)
+                .OrderByDescending(e => e.Id)
                 .Take(4)
-                .Select(x => new IndexEventModel()
+                .Select(e => new IndexEventModel()
                 {
-                    Id = x.Id,
-                    Title = x.Title,
-                    BriefIntroduction = x.BriefIntroduction,
-                    ImageUrl = x.ImageUrl,
-                    OrganizerName = x.Organizer.Name,
-                    StartDate = x.StartDate.ToString("dd/MM/YYYY HH:mm"),
-                    EndDate = x.EndDate.ToString("dd/MM/YYYY HH:mm")
+                    Id = e.Id,
+                    Title = e.Title,
+                    BriefIntroduction = e.BriefIntroduction,
+                    ImageUrl = e.ImageUrl,
+                    OrganizerName = e.Organizer.Name,
+                    StartDate = e.StartDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                    EndDate = e.EndDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                    
                 })
                 .ToListAsync();
         }
@@ -130,5 +132,96 @@ namespace LetsGoOutside.Core.Services
             throw new NotImplementedException();
         }
 
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await repository.AllReadOnly<Event>()
+                .AnyAsync(e => e.Id == id);
+        }
+
+        public async Task<EventDetailsServiceModel> EventDetailsByIdAsync(int id)
+        {
+            var eventt = await repository.AllReadOnly<Event>()
+                .Where(e => e.Id == id)
+                .FirstAsync();
+
+            string[] splitDescription = eventt.Description.Split(new string[] { "\r\n", "\n", "\r", Environment.NewLine }, StringSplitOptions.None);
+
+             var model = await repository.AllReadOnly<Event>()
+               .Where(e => e.Id == id)
+               .Select(e => new EventDetailsServiceModel()
+               {
+                   Id = e.Id,
+                   BriefDescription = e.BriefIntroduction,
+                   Description = splitDescription,
+                   ImageUrl = e.ImageUrl,
+                   StartDate = e.StartDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                   EndDate = e.EndDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                   Title = e.Title,
+                   Address = e.Address,
+                   EventHyperlink = e.EventHyperlink,
+                   Organizer =  new Models.Organizer.OrganizerServiceModel()
+                   {
+                       Name = e.Organizer.Name,
+                       UrlWebsite = e.Organizer.UrlWebsite,
+                       PhoneNumber = e.Organizer.PhoneNumber
+                   },
+                   OrganizerName = e.Organizer.Name
+               })
+               .FirstAsync();
+
+            return model;
+        }
+
+        public async Task EditAsync(int eventId, EventFormModel model)
+        {
+            var eventt = await repository.GetByIdAsync<Event>(eventId);
+
+            if (eventt != null)
+            {
+                eventt.Title = model.Title;
+                eventt.Description = model.Description;
+                eventt.BriefIntroduction = model.BriefIntroduction;
+                eventt.ImageUrl = model.ImageUrl;
+                eventt.EventHyperlink = model.EventHyperlink;
+                eventt.Address = model.Address;
+                eventt.StartDate = model.StartDate;
+                eventt.EndDate = model.EndDate;
+            }
+
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task<bool> HasOrganizerWithIdAsync(int eventId, string userId)
+        {
+            return await repository.AllReadOnly<Event>()
+                .AnyAsync(e => e.Id == eventId && e.Organizer.UserId == userId);
+        }
+
+        public async Task<EventFormModel?> GetEventFormModelByIdAsync(int id)
+        {
+            var eventt = await repository.AllReadOnly<Event>()
+                .Where(e => e.Id == id)
+                .Select(e => new EventFormModel()
+                {
+                    Title = e.Title,
+                    Description = e.Description,
+                    BriefIntroduction = e.BriefIntroduction,
+                    ImageUrl = e.ImageUrl,
+                    EventHyperlink = e.EventHyperlink,
+                    Address = e.Address,
+                    StartDate = e.StartDate,
+                    EndDate = e.EndDate,
+                })
+                .FirstOrDefaultAsync();
+
+            return eventt;
+        }
+
+        public async Task DeleteAsync(int eventId)
+        {
+            await repository.DeleteAsync<Event>(eventId);
+
+            await repository.SaveChangesAsync();
+        }
     }
 }

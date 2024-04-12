@@ -1,39 +1,51 @@
 ﻿@model EventDetailsServiceModel
 
-
 @{
-    ViewBag.Title = "Информация за събитието";
+    ViewBag.Title = Model.Title;
 }
 
-<h2 class="text-center">@ViewBag.Title</h2>
-<hr />
-
-<div class="container" style="display:inline">
-    <div class="row">
-        <div class="col-4">
-            <img class="card-img-top" style="width: 20rem;"
-                 src="@Model.ImageUrl" alt="House Image">
+<div>
+    <div class="container">
+        <div class="image">
+            <img src="@Model.ImageUrl">
         </div>
-        <div class="card col-8 border-0">
-            <p style="font-size:25px;"><u>@Model.Title</u></p>
-            <p>Located in: <b>@Model.Address</b></p>
-            
-            <p>@Model.Description</p>
+        <div class="text">
+            <h2>@Model.Title</h2>
+            <hr />
+        </div>
+    </div>
+
+    @foreach (var paragraph in Model.Description)
+    {
+        <p>@paragraph</p>
+    }
+    <hr />
+
+    <div>Начало: @Model.StartDate<div/>
+    <div>Край: @Model.EndDate<div/>
+    <div>Място: @Model.Address</div>
+    @if (Model.EventHyperlink != null)
+    {
+        <a href="@Model.EventHyperlink"><b>Линк към събитието</b></a>
+    }
             <div class="form-inline">
                 @if (this.User.Identity.IsAuthenticated)
                 {
-                    <a class="btn btn-warning" asp-controller="House" asp-action="Edit"
+                    <a class="btn btn-warning" asp-controller="Event" asp-action="Edit"
                        asp-route-id="@Model.Id">Edit</a>
-                    <a class="ml-2 btn btn-danger" asp-controller="House" asp-action="Delete"
-                       asp-route-id="@Model.Id">Delete</a>
+                    <a class="ml-2 btn btn-danger" asp-controller="Event" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
                 }
             </div>
             <p></p>
             <div class="card" style="width: 18rem;">
                 <div class="card-body">
-                    <h5 class="card-title">Agent Info</h5>
-                    <p class="card-text">Email:  @Model.OrganizerName</p>
-                    <p class="card-text">Phone Number: @Model.Organizer.PhoneNumber</p>
+                    <h5 class="card-title">Информация за организатора:</h5>
+                    <p class="card-text">Име: @Model.Organizer.Name</p>
+                    @if (Model.Organizer.UrlWebsite != null && string.IsNullOrWhiteSpace(Model.Organizer.UrlWebsite)==false)
+                    {
+                        <p class="card-text">Уебсайт:  @Model.Organizer.UrlWebsite</p>
+                    }
+                    <p class="card-text">Телефонен номер: @Model.Organizer.PhoneNumber</p>
                 </div>
             </div>
         </div>

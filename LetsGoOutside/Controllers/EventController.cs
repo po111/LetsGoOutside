@@ -64,7 +64,11 @@ namespace LetsGoOutside.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = new EventDetailsViewModel();
+            if (await eventService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+            var model = await eventService.EventDetailsByIdAsync(id);
 
             return View(model);
         }
@@ -112,8 +116,17 @@ namespace LetsGoOutside.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
+            if (await eventService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
 
-            var model = new EventFormModel();
+            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            var model = await eventService.GetEventFormModelByIdAsync(id);
 
             return View(model);
         }
@@ -121,13 +134,48 @@ namespace LetsGoOutside.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, EventFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id = "1" });
+            if (await eventService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            await eventService.EditAsync(id, model);
+
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = new EventDetailsViewModel();
+            if (await eventService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            var eventt = await eventService.EventDetailsByIdAsync(id);
+
+            var model = new EventDetailsViewModel()
+            {
+                Id = id,
+                BriefDescription = eventt.BriefDescription,
+                ImageUrl = eventt.ImageUrl,
+                Title = eventt.Title,
+            };
 
             return View(model);
         }
@@ -135,6 +183,18 @@ namespace LetsGoOutside.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(EventDetailsViewModel model)
         {
+            if (await eventService.ExistsAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await eventService.HasOrganizerWithIdAsync(model.Id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            await eventService.DeleteAsync(model.Id);
+
             return RedirectToAction(nameof(All));
         }
     }

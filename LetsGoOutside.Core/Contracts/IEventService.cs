@@ -24,5 +24,16 @@ namespace LetsGoOutside.Core.Contracts
 
         Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId);
 
+        Task<bool> ExistsAsync(int id);
+
+        Task<EventDetailsServiceModel> EventDetailsByIdAsync(int id);
+        Task EditAsync(int eventId, EventFormModel model);
+
+        Task<bool> HasOrganizerWithIdAsync(int eventId, string userId);
+
+        Task<EventFormModel?> GetEventFormModelByIdAsync(int id);
+
+        Task DeleteAsync(int eventId);
+
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LetsGoOutside.Core.Models.Article;
 using LetsGoOutside.Core.Models.Event;
 using LetsGoOutside.Infrastructure.Data.Models;
+using System.Globalization;
 
 namespace System.Linq
 {
@@ -30,8 +31,8 @@ namespace System.Linq
                     BriefDescription = e.BriefIntroduction,
                     Title = e.Title,
                     ImageUrl = e.ImageUrl,
-                    StartDate = e.StartDate.ToString("dd/MM/YYYY hh:mm"),
-                    EndDate = e.EndDate.ToString("dd/MM/YYYY hh:mm")
+                    StartDate = e.StartDate.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture),
+                    EndDate = e.EndDate.ToString("dd/MM/yyyy hh:mm", CultureInfo.InvariantCulture)
 
                 });
         }
