@@ -44,7 +44,7 @@ namespace LetsGoOutside.Controllers
                 return View(model);
             }
 
-            await organizerService.CreateAsync(User.Id(), model.Name, model.PhoneNumber, model.BriefPresentation= "", model.UrlWebsite= "");
+            await organizerService.CreateAsync(User.Id(), model.PhoneNumber, model.Name, model.BriefPresentation= "", model.UrlWebsite= "");
 
             return RedirectToAction(nameof(EventController.All), "Event");
         }
