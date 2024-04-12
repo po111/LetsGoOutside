@@ -146,12 +146,11 @@ namespace LetsGoOutside.Controllers
                 return BadRequest();
             }
 
-            if (await articleService.HasAuthorWithIdAsync(id, User.Id())==false)
+            if (await articleService.HasAuthorWithIdAsync(id, User.Id())==false 
+                && User.IsAdmin()==false)
             {
                 return Unauthorized();
-            }
-
-           
+            }           
 
             var model = await articleService.GetArticleEditFormModelByIdAsync(id);
 
@@ -166,7 +165,8 @@ namespace LetsGoOutside.Controllers
                 return BadRequest();
             }
 
-            if (await articleService.HasAuthorWithIdAsync(id, User.Id()) == false)
+            if (await articleService.HasAuthorWithIdAsync(id, User.Id()) == false
+                && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -222,7 +222,8 @@ namespace LetsGoOutside.Controllers
                 return BadRequest();
             }
 
-            if (await articleService.HasAuthorWithIdAsync(id, User.Id()) ==false)
+            if (await articleService.HasAuthorWithIdAsync(id, User.Id()) ==false
+                && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -243,12 +244,13 @@ namespace LetsGoOutside.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(ArticleDetailsViewModel model)
         {
-            if (await articleService.ExistsAsync(model.Id) == false)
+            if (await articleService.ExistsAsync(model.Id) == false
+                && User.IsAdmin() == false)
             {
                 return BadRequest();
             }
 
-            if (await articleService.HasAuthorWithIdAsync(model.Id, User.Id()) == false)
+            if (await articleService.HasAuthorWithIdAsync(model.Id, User.Id()) == false && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }

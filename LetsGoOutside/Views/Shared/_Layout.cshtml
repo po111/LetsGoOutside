@@ -43,7 +43,7 @@
                         @if(await organizerService.ExistsByIdAsync(User.Id()))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Organizer" asp-action="Mine">Моите събития</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="Mine">Моите събития</a>
                             </li>
                         }
                         <li class="nav-item">

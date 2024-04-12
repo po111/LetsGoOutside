@@ -12,7 +12,7 @@
             <br />
             <a asp-controller="Article" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success">Details</a>
-            @if (this.User.Identity.IsAuthenticated && await articleService.HasAuthorWithIdAsync(Model.Id, User.Id()))
+            @if (this.User.Identity.IsAuthenticated && (await articleService.HasAuthorWithIdAsync(Model.Id, User.Id()) || User.IsAdmin()))
             {
                 <a asp-controller="Article" asp-action="Edit" asp-route-id="@Model.Id"
                    class="btn btn-warning">Edit</a>

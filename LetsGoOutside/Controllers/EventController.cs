@@ -121,7 +121,8 @@ namespace LetsGoOutside.Controllers
                 return BadRequest();
             }
 
-            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false)
+            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false
+                && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -139,7 +140,7 @@ namespace LetsGoOutside.Controllers
                 return BadRequest();
             }
 
-            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false)
+            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -162,7 +163,7 @@ namespace LetsGoOutside.Controllers
                 return BadRequest();
             }
 
-            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false)
+            if (await eventService.HasOrganizerWithIdAsync(id, User.Id()) == false && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -188,7 +189,7 @@ namespace LetsGoOutside.Controllers
                 return BadRequest();
             }
 
-            if (await eventService.HasOrganizerWithIdAsync(model.Id, User.Id()) == false)
+            if (await eventService.HasOrganizerWithIdAsync(model.Id, User.Id()) == false && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }

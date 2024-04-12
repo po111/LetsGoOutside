@@ -30,7 +30,7 @@
         <a href="@Model.EventHyperlink"><b>Линк към събитието</b></a>
     }
             <div class="form-inline">
-                @if (this.User.Identity.IsAuthenticated && await eventService.HasOrganizerWithIdAsync(Model.Id, User.Id()))
+                @if (this.User.Identity.IsAuthenticated && (await eventService.HasOrganizerWithIdAsync(Model.Id, User.Id()) || User.IsAdmin()))
                 {
                     <a class="btn btn-warning" asp-controller="Event" asp-action="Edit"
                        asp-route-id="@Model.Id">Edit</a>
