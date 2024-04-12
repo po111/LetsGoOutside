@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject IAuthorService authorService;
+@inject IOrganizerService organizerService;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -29,7 +31,19 @@
                         @if(User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Mine">Любими</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Favourites">Любими</a>
+                            </li>
+                        }
+                        @if(await authorService.ExistsByIdAsync(User.Id()))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Mine">Моите статии</a>
+                            </li>
+                        }
+                        @if(await organizerService.ExistsByIdAsync(User.Id()))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Organizer" asp-action="Mine">Моите събития</a>
                             </li>
                         }
                         <li class="nav-item">

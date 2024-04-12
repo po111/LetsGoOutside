@@ -1,4 +1,6 @@
 ﻿@model IndexViewModel
+@inject IAuthorService authorService
+@inject IOrganizerService organizerService
 
 @{
     ViewData["Title"] = "Home Page";
@@ -20,7 +22,7 @@
                 </p>
                 <hr class="my-4" />
                 <p class="lead">
-                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    @if (User?.Identity?.IsAuthenticated ?? false && await authorService.ExistsByIdAsync(User.Id()))
                     {
                         <a asp-controller="Article" asp-action="Add" class="btn btn-primary btn-lg" role="button">Добави статия</a>
                     }
@@ -48,7 +50,7 @@
                 </p>
                 <hr class="my-4" />
                 <p class="lead">
-                    @if (User?.Identity?.IsAuthenticated ?? false)
+                    @if (User?.Identity?.IsAuthenticated ?? false && await organizerService.ExistsByIdAsync(User.Id()))
                     {
                         <a asp-controller="Event" asp-action="Add" class="btn btn-primary btn-lg" role="button">Добави събитие</a>
                     }

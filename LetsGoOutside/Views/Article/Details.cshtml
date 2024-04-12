@@ -1,5 +1,5 @@
 ﻿@model ArticleDetailsServiceModel
-
+@inject IArticleService articleService
 
 @{
     ViewBag.Title = Model.Title;
@@ -30,7 +30,7 @@
     <p>Категория: <b>@Model.categories</b></p>
     <p>Подходящо време: <b>@Model.weathers</b></p>
     <div class="form-inline">
-        @if (this.User.Identity.IsAuthenticated)
+        @if (this.User.Identity.IsAuthenticated && await articleService.HasAuthorWithIdAsync(Model.Id, User.Id()))
         {
             <a class="btn btn-warning" asp-controller="Article" asp-action="Edit"
                asp-route-id="@Model.Id">Edit</a>

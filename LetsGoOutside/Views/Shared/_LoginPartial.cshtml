@@ -1,18 +1,27 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IAuthorService authorService
+@inject IOrganizerService organizerService
+@using System.Security.Claims
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+        @if (!await organizerService.ExistsByIdAsync(User.Id())==false)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Organizer" asp-action="Become">Стани организатор</a>
+            </li>
+        }
+        @if (await authorService.ExistsByIdAsync(User.Id())==false)
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Become">Стани автор</a>
+            </li>
+        }
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Organizer" asp-action="Become">Стани организатор</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Become">Стани автор</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Здравей, @User.Identity?.Name!</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
