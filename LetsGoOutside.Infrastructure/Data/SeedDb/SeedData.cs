@@ -15,6 +15,9 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
         public IdentityUser AuthorUser1 { get; set; }
         public IdentityUser AuthorUser2 { get; set; }
 
+        public IdentityUser AdminUser1 { get; set; }
+
+
         public IdentityUser OrganizerUser1 { get; set; }
         public IdentityUser OrganizerUser2 { get; set; }
         public IdentityUser OrganizerUser3 { get; set; }
@@ -24,10 +27,14 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
         public Author Author1 { get; set; }
         public Author Author2 { get; set; }
 
+        public Author AdminAuthor1 { get; set; }
+
         public Organizer Organizer1 { get; set; }
         public Organizer Organizer2 { get; set; }
         public Organizer Organizer3 { get; set; }
         public Organizer Organizer4 { get; set; }
+
+        public Organizer AdminOrganizer1 { get; set; }
 
         public Category ActivityCategory { get; set; }
         public Category FunCategory { get; set; }
@@ -176,6 +183,18 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
 
             GuestUser2.PasswordHash =
             hasher.HashPassword(GuestUser2, "Guest234!");
+
+            AdminUser1 = new IdentityUser()
+            {
+                Id = "c974417d-38b4-42a6-9133-708d1d7c8b0f",
+                UserName = "admin1@mail.com",
+                NormalizedUserName = "admin1@mail.com",
+                Email = "admin1@mail.com",
+                NormalizedEmail = "admin1@mail.com"
+            };
+
+            AdminUser1.PasswordHash =
+            hasher.HashPassword(AdminUser1, "Admin123!");
         }
 
         private void SeedAuthors()
@@ -196,6 +215,13 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
                 UserId = AuthorUser2.Id
             };
 
+            AdminAuthor1 = new Author()
+            {
+                Id = 5,
+                Name = "Администратор-автор",
+                DateCreated = DateTime.Now.AddMonths(-15),
+                UserId = AdminUser1.Id
+            };
         }
 
         private void SeedOrganizers()
@@ -241,6 +267,17 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
                 DateCreated = DateTime.Now.AddDays(-98),
                 UrlWebsite = "https://kokolandia.com",
                 UserId = OrganizerUser4.Id
+            };
+
+            AdminOrganizer1 = new Organizer()
+            {
+                Id = 7,
+                PhoneNumber = "+359777777777",
+                Name = "Администратор-организатор",
+                BriefPresentation = "",
+                DateCreated = DateTime.Now.AddMonths(-15),
+                UrlWebsite = "",
+                UserId = AdminUser1.Id
             };
         }
 

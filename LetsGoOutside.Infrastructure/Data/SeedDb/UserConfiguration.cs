@@ -10,7 +10,7 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
         {
             var data = new SeedData();
 
-            builder.HasData(new IdentityUser[] { data.AuthorUser1, data.AuthorUser2, data.GuestUser1, data.GuestUser2, data.OrganizerUser1, data.OrganizerUser2, data.OrganizerUser3, data.OrganizerUser4 });
+            builder.HasData(new IdentityUser[] { data.AuthorUser1, data.AuthorUser2, data.GuestUser1, data.GuestUser2, data.OrganizerUser1, data.OrganizerUser2, data.OrganizerUser3, data.OrganizerUser4, data.AdminUser1 });
         }
     }
 }

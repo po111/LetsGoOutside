@@ -9,7 +9,7 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
         public void Configure(EntityTypeBuilder<Author> builder)
         {
             var data = new SeedData();
-            builder.HasData(new Author[] { data.Author1, data.Author2 });
+            builder.HasData(new Author[] { data.Author1, data.Author2, data.AdminAuthor1 });
         }
     }
 }

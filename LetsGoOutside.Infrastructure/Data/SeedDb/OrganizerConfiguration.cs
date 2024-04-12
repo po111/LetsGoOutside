@@ -10,7 +10,7 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
         {
             var data = new SeedData();
 
-            builder.HasData(new Organizer[] { data.Organizer1, data.Organizer2, data.Organizer3, data.Organizer4 });
+            builder.HasData(new Organizer[] { data.Organizer1, data.Organizer2, data.Organizer3, data.Organizer4, data.AdminOrganizer1 });
         }
     }
 }
