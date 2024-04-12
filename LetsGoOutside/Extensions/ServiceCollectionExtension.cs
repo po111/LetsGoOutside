@@ -49,6 +49,8 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.Password.RequireUppercase = true;
 
                 })
+
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<LetsGoOutsideDbContext>();
 
 
