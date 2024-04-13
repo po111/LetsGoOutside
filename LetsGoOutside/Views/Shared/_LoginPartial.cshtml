@@ -4,11 +4,20 @@
 @inject IAuthorService authorService
 @inject IOrganizerService organizerService
 @using System.Security.Claims
+@using static LetsGoOutside.Core.Constants.RoleConstants;
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        @if (!await organizerService.ExistsByIdAsync(User.Id())==false)
+        var user = await UserManager.FindByIdAsync(User.Id());
+        @if (await UserManager.IsInRoleAsync(user, AdminRole))
+        {
+            <li class="nav-item">
+                <a class="nav-link text-dark text-decoration-underline text-danger" asp-area="Admin" asp-controller="Home" asp-action="Dashboard">За администратори</a>
+            </li>
+        }
+
+        @if (await organizerService.ExistsByIdAsync(User.Id())==false)
         {
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="" asp-controller="Organizer" asp-action="Become">Стани организатор</a>

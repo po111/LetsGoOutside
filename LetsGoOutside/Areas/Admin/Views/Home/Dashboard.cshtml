@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row">
+    <div class="col-md-5">
+        <div class="card" style="width:80rem;">
+            <div class="col-md-2">
+                <img src="https://m.netinfo.bg/media/images/35293/35293823/991-ratio-rodopi.jpg" class="img-fluid" alt="Responsive image" />
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Преглед</h5>
+                <p class="card-text">Прегледайте статиите.</p>
+                <a asp-action="ArticlesForReview" class="btn btn-primary">Преглед на статиите</a>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Преглед</h5>
+                <p class="card-text">Прегледайте събитията.</p>
+                <a asp-action="EventsForReview" class="btn btn-primary">Преглед на събитията</a>
+            </div>
+        </div>
+    </div>
+</div>
