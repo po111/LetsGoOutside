@@ -26,7 +26,8 @@ namespace LetsGoOutside.Core.Services
 
         public async Task<EventQueryServiceModel> AllAsync(string? searchTerm = null, EventSorting sorting = EventSorting.Newest, int currentPage = 1, int eventsPerPage = 1)
         {
-            var eventsToDisplay = repository.AllReadOnly<Event>();
+            var eventsToDisplay = repository.AllReadOnly<Event>()
+                .Where(e => e.IsApproved);
 
             if (searchTerm != null)
             {
@@ -103,6 +104,7 @@ namespace LetsGoOutside.Core.Services
         {
             return await repository
                 .AllReadOnly<Event>()
+                 .Where(e => e.IsApproved)
                 .OrderByDescending(e => e.Id)
                 .Take(4)
                 .Select(e => new IndexEventModel()
@@ -114,7 +116,7 @@ namespace LetsGoOutside.Core.Services
                     OrganizerName = e.Organizer.Name,
                     StartDate = e.StartDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
                     EndDate = e.EndDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
-                    
+
                 })
                 .ToListAsync();
         }
@@ -123,14 +125,15 @@ namespace LetsGoOutside.Core.Services
         {
             return await repository.AllReadOnly<Event>()
                 .Where(e => e.OrganizerId == organizerId)
+                 .Where(e => e.IsApproved)
                 .ProjectToEventServiceModel()
                 .ToListAsync();
         }
 
-        public Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<bool> ExistsAsync(int id)
         {
@@ -146,28 +149,30 @@ namespace LetsGoOutside.Core.Services
 
             string[] splitDescription = eventt.Description.Split(new string[] { "\r\n", "\n", "\r", Environment.NewLine }, StringSplitOptions.None);
 
-             var model = await repository.AllReadOnly<Event>()
-               .Where(e => e.Id == id)
-               .Select(e => new EventDetailsServiceModel()
-               {
-                   Id = e.Id,
-                   BriefDescription = e.BriefIntroduction,
-                   Description = splitDescription,
-                   ImageUrl = e.ImageUrl,
-                   StartDate = e.StartDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
-                   EndDate = e.EndDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
-                   Title = e.Title,
-                   Address = e.Address,
-                   EventHyperlink = e.EventHyperlink,
-                   Organizer =  new Models.Organizer.OrganizerServiceModel()
-                   {
-                       Name = e.Organizer.Name,
-                       UrlWebsite = e.Organizer.UrlWebsite,
-                       PhoneNumber = e.Organizer.PhoneNumber
-                   },
-                   OrganizerName = e.Organizer.Name
-               })
-               .FirstAsync();
+            var model = await repository.AllReadOnly<Event>()
+              .Where(e => e.Id == id)
+              .Select(e => new EventDetailsServiceModel()
+              {
+                  Id = e.Id,
+                  BriefDescription = e.BriefIntroduction,
+                  Description = splitDescription,
+                  ImageUrl = e.ImageUrl,
+                  StartDate = e.StartDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                  EndDate = e.EndDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                  Title = e.Title,
+                  Address = e.Address,
+                  EventHyperlink = e.EventHyperlink,
+                  Organizer = new Models.Organizer.OrganizerServiceModel()
+                  {
+                      Name = e.Organizer.Name,
+                      UrlWebsite = e.Organizer.UrlWebsite,
+                      PhoneNumber = e.Organizer.PhoneNumber
+                  },
+                  OrganizerName = e.Organizer.Name,
+                  IsApproved = e.IsApproved
+                  
+              })
+              .FirstAsync();
 
             return model;
         }
@@ -200,6 +205,7 @@ namespace LetsGoOutside.Core.Services
         public async Task<EventFormModel?> GetEventFormModelByIdAsync(int id)
         {
             var eventt = await repository.AllReadOnly<Event>()
+                 .Where(e => e.IsApproved)
                 .Where(e => e.Id == id)
                 .Select(e => new EventFormModel()
                 {
@@ -222,6 +228,40 @@ namespace LetsGoOutside.Core.Services
             await repository.DeleteAsync<Event>(eventId);
 
             await repository.SaveChangesAsync();
+        }
+
+        public async Task ApproveEventAsync(int eventId)
+        {
+            var eventt = await repository.GetByIdAsync<Event>(eventId);
+
+            if (eventt != null && eventt.IsApproved == false)
+            {
+                eventt.IsApproved = true;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<EventDetailsServiceModel>> EventsForApprovalAsync()
+        {
+
+            return await repository.AllReadOnly<Event>()
+                .Where(a => a.IsApproved == false)
+                .Select(a => new EventDetailsServiceModel()
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    BriefDescription = a.BriefIntroduction,
+                    Description = a.Description.Split(new string[] { "\r\n", "\n", "\r", Environment.NewLine }, StringSplitOptions.None),
+                    StartDate = a.StartDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                    EndDate = a.EndDate.ToString("dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture),
+                    ImageUrl = a.ImageUrl,
+                    DateCreated = a.DateCreated.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    OrganizerName = a.Organizer.Name,
+                    Address = a.Address,
+                    EventHyperlink = a.EventHyperlink
+                })
+                .ToListAsync();
         }
     }
 }

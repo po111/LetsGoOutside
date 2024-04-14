@@ -32,7 +32,7 @@ namespace LetsGoOutside.Core.Contracts
 
         Task<IEnumerable<ArticleServiceModel>> AllArticlesByAuthorIdAsync(int authorId);
 
-        Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId);
+        //Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId);
 
         Task<bool> ExistsAsync(int id);
 
@@ -51,5 +51,9 @@ namespace LetsGoOutside.Core.Contracts
         Task<List<int>> GetArticleCategoriesIdsAsync(int articleId);
 
         Task<List<int>> GetArticleWeathersIdsAsync(int articleId);
+
+        Task ApproveArticleAsync(int articleId);
+
+        Task<IEnumerable<ArticleDetailsServiceModel>> ArticlesForApprovalAsync();
     }
 }

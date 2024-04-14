@@ -1,0 +1,48 @@
+﻿@model IEnumerable<EventDetailsServiceModel>
+
+@{
+    ViewBag.Title = "За одобрение";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+<hr />
+<h4>Събития за одобрение: </h4>
+@if (!Model.Any())
+{
+    <h2 class="text-center">Няма събития за одобрение</h2>
+}
+<div class="row">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th><label>Дата</label></th>
+                <th><label>Организатор</label></th>
+                <th><label>Заглавие</label></th>
+                <th><label>Детайли</label></th>
+                <th><label>За одобрение</label></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var eventt in Model)
+            {
+                <tr>
+                    <td><label>@eventt.DateCreated</label></td>
+                    <td><label>@eventt.OrganizerName</label></td>
+                    <td><label>@eventt.Title</label></td>
+                    <td>
+                        <form class="input-group-sm" asp-controller="Event" asp-area="" asp-action="Details" asp-route-id="@eventt.Id" method="get">
+                            <input class="btn btn-success" type="submit" value="Details">
+                        </form>
+                    </td>
+                    <td>
+                        <form class="input-group-sm" asp-controller="Event" asp-area="Admin" asp-action="Approve" asp-route-eventId="@eventt.Id" method="post">
+                            <input class="btn btn-warning" type="submit" value="Approve">
+                        </form>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

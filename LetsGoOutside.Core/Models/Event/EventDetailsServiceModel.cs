@@ -12,6 +12,11 @@ namespace LetsGoOutside.Core.Models.Event
 
         public OrganizerServiceModel Organizer { get; set; } = null!;
 
+        public bool IsApproved { get; set; } = false;
+
+        public string DateCreated { get; set; } = null!;
+
+
 
 
     }

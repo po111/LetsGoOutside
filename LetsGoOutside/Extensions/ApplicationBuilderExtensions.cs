@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using static LetsGoOutside.Core.Constants.RoleConstants;
+using static LetsGoOutside.Core.Constants.AdministratorConstants;
 
 namespace Microsoft.AspNetCore.Builder
 {

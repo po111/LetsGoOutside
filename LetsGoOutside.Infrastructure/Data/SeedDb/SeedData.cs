@@ -13,6 +13,7 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
         public IdentityUser GuestUser2 { get; set; }
 
         public IdentityUser AuthorUser1 { get; set; }
+
         public IdentityUser AuthorUser2 { get; set; }
 
         public IdentityUser AdminUser1 { get; set; }

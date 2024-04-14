@@ -8,13 +8,17 @@
 <div>
     <div class="container">
         <div class="image">
-            <img src="@Model.ImageUrl">
+            <img src="@Model.ImageUrl" class="img-fluid">
         </div>
         <div class="text">
             <h2>@Model.Title</h2>
             <hr />
         </div>
     </div>
+    @if (Model.IsApproved == false)
+    {
+        <h3 class="text-danger"><b>Тази статия още не е одобрена!</b></h3>
+    }
 
     @foreach (var paragraph in Model.Content)
     {
@@ -36,8 +40,8 @@
                asp-route-id="@Model.Id">Edit</a>
             <a class="ml-2 btn btn-danger" asp-controller="Article" asp-action="Delete"
                asp-route-id="@Model.Id">Delete</a>
-
         }
     </div>
+    
 </div>
 

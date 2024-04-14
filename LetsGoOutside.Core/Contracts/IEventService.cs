@@ -22,7 +22,7 @@ namespace LetsGoOutside.Core.Contracts
             int eventsPerPage = 1);
         Task<IEnumerable<EventServiceModel>> AllEventsByOrganizerIdAsync(int agentId);
 
-        Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId);
+        //Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId);
 
         Task<bool> ExistsAsync(int id);
 
@@ -34,6 +34,10 @@ namespace LetsGoOutside.Core.Contracts
         Task<EventFormModel?> GetEventFormModelByIdAsync(int id);
 
         Task DeleteAsync(int eventId);
+
+        Task ApproveEventAsync(int eventId);
+
+        Task<IEnumerable<EventDetailsServiceModel>> EventsForApprovalAsync();
 
     }
 }

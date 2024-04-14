@@ -17,6 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IEventService, EventService>();
             services.AddScoped<IAuthorService, AuthorService>();
             services.AddScoped<IOrganizerService, OrganizerService>();
+            services.AddScoped<IUserService, UserService>();
             
             
             return services;
@@ -47,6 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     options.Password.RequireDigit = true;
                     options.Password.RequireLowercase = true;
                     options.Password.RequireUppercase = true;
+                    options.User.RequireUniqueEmail = true;
 
                 })
 

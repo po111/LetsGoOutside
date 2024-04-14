@@ -27,14 +27,15 @@ namespace LetsGoOutside.Core.Services
         {
             return await repository.AllReadOnly<Article>()
                 .Where(a => a.AuthorId == authorId)
+                .Where(a => a.IsApproved)
                 .ProjectToArticleServiceModel()
                 .ToListAsync();
         }
 
-        public Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public async Task<ArticleQueryServiceModel> AllAsync(
             string? category = null,
@@ -50,6 +51,7 @@ namespace LetsGoOutside.Core.Services
                      .ThenInclude(ac => ac.Category)
                 .Include(a => a.ArticlesWeathers)
                     .ThenInclude(aw => aw.Weather)
+                    .Where(a=>a.IsApproved)
                     .AsQueryable();
 
             if (category != null)
@@ -206,7 +208,9 @@ namespace LetsGoOutside.Core.Services
                     AuthorName = a.Author.Name,
                     HyperlinkSource = a.HyperlinkSource,
                     categories = String.Join(", ", categories),
-                    weathers = String.Join(", ", weathers)
+                    weathers = String.Join(", ", weathers),
+                    IsApproved = a.IsApproved
+                    
                 })
                 .FirstAsync();
 
@@ -338,6 +342,7 @@ namespace LetsGoOutside.Core.Services
         public async Task<ArticleFormModel?> GetArticleFormModelByIdAsync(int id)
         {
             var article = await repository.AllReadOnly<Article>()
+                .Where(a => a.IsApproved)
                 .Where(a => a.Id == id)
                 .Select(a => new ArticleFormModel()
                 {
@@ -391,6 +396,7 @@ namespace LetsGoOutside.Core.Services
         {
             return await repository
                 .AllReadOnly<Article>()
+                .Where(a => a.IsApproved)
                 .OrderByDescending(x => x.Id)
                 .Take(4)
                 .Select(x => new IndexArticleModel()
@@ -468,6 +474,37 @@ namespace LetsGoOutside.Core.Services
             }
 
             return weathers;
+        }
+
+        public async Task ApproveArticleAsync(int articleId)
+        {
+            var article = await repository.GetByIdAsync<Article>(articleId);
+
+            if (article != null && article.IsApproved==false)
+            {
+                article.IsApproved = true;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<ArticleDetailsServiceModel>> ArticlesForApprovalAsync()
+        {
+
+            return await repository.AllReadOnly<Article>()
+                .Where(a=>a.IsApproved==false)
+                .Select(a=> new ArticleDetailsServiceModel()
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    BriefDescription=a.BriefIntroduction,
+                    Content = a.Content.Split(new string[] { "\r\n", "\n", "\r", Environment.NewLine }, StringSplitOptions.None),
+                    ImageUrl = a.ImageUrl,
+                    DateCreated = a.DateCreated.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    AuthorName = a.Author.Name,
+                    HyperlinkSource = a.HyperlinkSource,
+                })
+                .ToListAsync();
         }
     }
 }

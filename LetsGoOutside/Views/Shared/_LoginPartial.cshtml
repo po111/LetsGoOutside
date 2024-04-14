@@ -4,7 +4,7 @@
 @inject IAuthorService authorService
 @inject IOrganizerService organizerService
 @using System.Security.Claims
-@using static LetsGoOutside.Core.Constants.RoleConstants;
+@using static LetsGoOutside.Core.Constants.AdministratorConstants;
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
@@ -13,7 +13,7 @@
         @if (await UserManager.IsInRoleAsync(user, AdminRole))
         {
             <li class="nav-item">
-                <a class="nav-link text-dark text-decoration-underline text-danger" asp-area="Admin" asp-controller="Home" asp-action="Dashboard">За администратори</a>
+                <a class="nav-link text-dark text-decoration-underline text-danger" asp-area="Admin" asp-controller="Home" asp-action="Dashboard"><b>За администратори</b></a>
             </li>
         }
 

@@ -15,6 +15,10 @@
             <hr />
         </div>
     </div>
+    @if (Model.IsApproved == false)
+    {
+        <h3 class="text-danger"><b>Тази статия още не е одобрена!</b></h3>
+    }
 
     @foreach (var paragraph in Model.Description)
     {

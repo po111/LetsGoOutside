@@ -18,5 +18,7 @@ namespace LetsGoOutside.Core.Models.Article
         public string? categories { get; set; } 
 
         public string? weathers { get; set; } 
+
+        public bool IsApproved { get; set; } = false;
     }
 }

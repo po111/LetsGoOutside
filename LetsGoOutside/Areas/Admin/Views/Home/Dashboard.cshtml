@@ -2,22 +2,32 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="row">
-    <div class="col-md-5">
-        <div class="card" style="width:80rem;">
-            <div class="col-md-2">
-                <img src="https://m.netinfo.bg/media/images/35293/35293823/991-ratio-rodopi.jpg" class="img-fluid" alt="Responsive image" />
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Преглед</h5>
-                <p class="card-text">Прегледайте статиите.</p>
-                <a asp-action="ArticlesForReview" class="btn btn-primary">Преглед на статиите</a>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">Преглед</h5>
-                <p class="card-text">Прегледайте събитията.</p>
-                <a asp-action="EventsForReview" class="btn btn-primary">Преглед на събитията</a>
-            </div>
-        </div>
-    </div>
+<div class="mt-4 p-5 bg-light text-center">
+    <h2 class="display-4">Здравей, Администратор!</h2>
+    <p class="lead mb-1 mt-3">
+        <b>Очакващи одобрение:</b> 
+        <hr class="my-4">
+        <a asp-area="Admin" asp-controller="Article" asp-action="Approve"
+           class="btn btn-warning btn-lg">Статии</a>
+        <a asp-area="Admin" asp-controller="Event" asp-action="Approve"
+           class="btn btn-warning btn-lg">Събития</a>
+        <hr class="my-4">
+        <hr class="my-4">
+    <a asp-area="" asp-controller="Article" asp-action="All"
+       class="btn btn-primary btn-lg">Всички статии</a>
+        <a asp-area="" asp-controller="Event" asp-action="All"
+           class="btn btn-primary btn-lg">Всички събития</a>
+        <hr class="my-4">
+    <a asp-area="" asp-controller="Article" asp-action="Add"
+       class="btn btn-primary btn-lg">Добави статия</a>
+        <a asp-area="" asp-controller="Event" asp-action="Add"
+           class="btn btn-primary btn-lg">Добави събитие</a>
+        <hr class="my-4">
+    <a asp-area="" asp-controller="Article" asp-action="Mine"
+       class="btn btn-primary btn-lg">Моите статии</a>
+        <a asp-area="" asp-controller="Event" asp-action="Mine"
+           class="btn btn-primary btn-lg">Моите събития</a>
+        <hr class="my-4">
+    <a asp-area="Admin" asp-controller="User" asp-action="All"
+       class="btn btn-primary btn-lg">Всички потребители</a>
 </div>
