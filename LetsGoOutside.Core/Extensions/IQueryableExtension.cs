@@ -6,7 +6,7 @@ using System.Globalization;
 namespace System.Linq
 {
     public static class IQueryableExtension
-    { 
+    {
         public static IQueryable<ArticleServiceModel> ProjectToArticleServiceModel(this IQueryable<Article> articles)
         {
             return articles

@@ -9,14 +9,6 @@ namespace LetsGoOutside.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult ArticlesForReview()
-        {
-            return View();
-        }
-
-        public IActionResult EventsForReview()
-        {
-            return View();
-        }
+        
     }
 }

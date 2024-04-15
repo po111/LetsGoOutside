@@ -10,13 +10,13 @@
             <h6>Организатор: <b>@Model.OrganizerName</b></h6>
             <h6>Начало: <b>@Model.StartDate</b> Край: <b>@Model.EndDate</b>  </h6>
             <br />
-            <a asp-controller="Event" asp-action="Details" asp-route-id="@Model.Id"
+            <a asp-area="" asp-controller="Event" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated && (await eventService.HasOrganizerWithIdAsync(Model.Id, User.Id()) || User.IsAdmin()))
             {
-                <a asp-controller="Event" asp-action="Edit" asp-route-id="@Model.Id"
+                <a asp-area="" asp-controller="Event" asp-action="Edit" asp-route-id="@Model.Id"
                    class="btn btn-warning">Edit</a>
-                <a asp-controller="Event" asp-action="Delete" asp-route-id="@Model.Id"
+                <a asp-area="" asp-controller="Event" asp-action="Delete" asp-route-id="@Model.Id"
                    class="btn btn-danger">Delete</a>
                 <p></p>
             }

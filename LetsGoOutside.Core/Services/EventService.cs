@@ -24,7 +24,7 @@ namespace LetsGoOutside.Core.Services
             repository = _repository;
         }
 
-        public async Task<EventQueryServiceModel> AllAsync(string? searchTerm = null, EventSorting sorting = EventSorting.Newest, int currentPage = 1, int eventsPerPage = 1)
+        public async Task<EventQueryServiceModel> AllAsync(string? searchTerm = null, EventSorting sorting = EventSorting.Newest, int currentPage = 1, int eventsPerPage = 3)
         {
             var eventsToDisplay = repository.AllReadOnly<Event>()
                 .Where(e => e.IsApproved);
@@ -45,11 +45,9 @@ namespace LetsGoOutside.Core.Services
                 EventSorting.Title => eventsToDisplay
                     .OrderBy(e => e.Title),
                 EventSorting.StartDate => eventsToDisplay
-                    .OrderByDescending(e => e.StartDate)
-                    .ThenByDescending(e => e.Id),
+                    .OrderBy(e => e.StartDate),
                 EventSorting.EndDate => eventsToDisplay
-                    .OrderByDescending(e => e.EndDate)
-                    .ThenByDescending(e => e.Id),
+                    .OrderByDescending(e => e.EndDate),
                 _ => eventsToDisplay
                 .OrderByDescending(e => e.Id)
             };

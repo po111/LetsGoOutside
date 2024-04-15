@@ -43,7 +43,7 @@ namespace LetsGoOutside.Core.Services
             string? searchTerm = null,
             ArticleSorting sorting = ArticleSorting.Newest,
             int currentPage = 1,
-            int articlesPerPage = 1)
+            int articlesPerPage = 3)
         {
 
             var articlesToDisplay = repository.AllReadOnly<Article>()
@@ -91,8 +91,7 @@ namespace LetsGoOutside.Core.Services
                     .OrderBy(a => a.Author.Name)
                     .ThenByDescending(a => a.Id),
                 ArticleSorting.Title => articlesToDisplay
-                    .OrderBy(a => a.Title)
-                    .ThenByDescending(a => a.Id),
+                    .OrderBy(a => a.Title),
                 ArticleSorting.Oldest => articlesToDisplay
                     .OrderBy(a => a.Id),
                 _ => articlesToDisplay

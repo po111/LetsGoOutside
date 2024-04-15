@@ -30,8 +30,9 @@ namespace LetsGoOutside.Controllers
             var events = await eventService.AllAsync(
                 model.SearchTerm,
                 model.Sorting,
-                model.EventsPerPage,
-                model.CurrentPage);
+                model.CurrentPage,
+                model.EventsPerPage
+                );
 
             model.TotalEventsCount = events.TotalEventsCount;
             model.Events = events.Events;

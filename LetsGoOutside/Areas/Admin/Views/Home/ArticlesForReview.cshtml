@@ -1,5 +1,38 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<ArticleServiceModel>;
+@inject IArticleService articleService;
+
 @{
+    ViewBag.Title = "Всички статии";
 }
+
+<h2 class="text-center"><b>@ViewBag.Title</b></h2>
+
+<hr />
+
+<div class="container">
+
+    @foreach(var item in Model)
+    {     
+    <div class="col-8">
+        <div class="col-2">
+                <img src="@item.ImageUrl" class="img-fluid">
+        </div>
+        <div class="col-6"><b>@item.Title</b></div>
+    </div>
+    <div class="col-8">
+        <p>Кратко представяне: @item.BriefDescription</p>
+        <p>Автор: <b>@item.AuthorName</b></p>
+    </div>
+        <br />
+        <a asp-controller="Article" asp-action="Details" asp-route-id="@item.Id"
+           class="btn btn-success">Details</a>
+        @if (this.User.Identity.IsAuthenticated && (await articleService.HasAuthorWithIdAsync(item.Id, User.Id()) || User.IsAdmin()))
+        {
+            <a asp-controller="Article" asp-action="Edit" asp-route-id="@item.Id"
+               class="btn btn-warning">Edit</a>
+            <a asp-controller="Article" asp-action="Delete" asp-route-id="@item.Id"
+               class="btn btn-danger">Delete</a>
+            <p></p>
+        }
+    }
+</div>

@@ -31,8 +31,9 @@ namespace LetsGoOutside.Controllers
                 model.Weather,
                 model.SearchTerm,
                 model.Sorting,
-                model.ArticlesPerPage,
-                model.CurrentPage);
+                model.CurrentPage,
+                model.ArticlesPerPage
+                );
 
             model.TotalArticlesCount = articles.TotalArticlesCount;
             model.Articles = articles.Articles;

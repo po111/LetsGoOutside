@@ -1,5 +1,6 @@
 ﻿using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Models.Admin;
+using LetsGoOutside.Core.Models.Article;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -46,5 +47,25 @@ namespace LetsGoOutside.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Approve));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> All( [FromQuery] AllArticlesQueryModel model)
+        {
+                var articles = await articleService.AllAsync(
+                    model.Category,
+                    model.Weather,
+                    model.SearchTerm,
+                    model.Sorting,
+                    model.CurrentPage,
+                    model.ArticlesPerPage);
+
+                model.TotalArticlesCount = articles.TotalArticlesCount;
+                model.Articles = articles.Articles;
+
+                model.Categories = await articleService.AllCategoriesNamesAsync();
+                model.Weathers = await articleService.AllWeatherNamesAsync();
+
+                return View(model);
+            }
     }
 }

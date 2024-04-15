@@ -24,7 +24,7 @@ namespace LetsGoOutside.Core.Contracts
             string? searchTerm = null,
             ArticleSorting sorting = ArticleSorting.Newest,
             int currentPage = 1,
-            int articlesPerPage = 1);
+            int articlesPerPage = 3);
 
         Task<IEnumerable<string>> AllCategoriesNamesAsync();
 
