@@ -2,6 +2,9 @@ html {
   font-size: 14px;
 }
 
+#adminLayout{
+    background-color: white;
+}
 #whiteletters{
     color:whitesmoke
 }
@@ -14,12 +17,32 @@ body {
     background-image: url('/backgroundPicture11.jpg');
     background-size: 100%;
     margin: 0;
+    background-attachment: fixed
 }
 
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
+}
+
+.dropdown{
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    border: none;
+    outline: none;
+    color: black;
+    background-color: white;
+}
+
+.dropdown-content {
+    display: none;
+}
+
+.dropdown:hover .dropdown-content{
+    display:block;
 }
 
 html {
@@ -30,3 +53,4 @@ html {
 body {
   margin-bottom: 60px;
 }
+

@@ -32,11 +32,6 @@ namespace LetsGoOutside.Core.Services
                 .ToListAsync();
         }
 
-        //public Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
         public async Task<ArticleQueryServiceModel> AllAsync(
             string? category = null,
             string? weather = null,
@@ -51,7 +46,7 @@ namespace LetsGoOutside.Core.Services
                      .ThenInclude(ac => ac.Category)
                 .Include(a => a.ArticlesWeathers)
                     .ThenInclude(aw => aw.Weather)
-                    .Where(a=>a.IsApproved)
+                    .Where(a => a.IsApproved)
                     .AsQueryable();
 
             if (category != null)
@@ -59,14 +54,6 @@ namespace LetsGoOutside.Core.Services
                 articlesToDisplay = articlesToDisplay
                     .Where(ad => ad.ArticlesCategories
                     .Any(x => x.Category.Name == category));
-
-                //Search by Id/Category entity found
-                //var categoryToBeFound = repository.AllReadOnly<Category>()
-                //       .Where(c => c.Name == category).First();
-
-                //articlesToDisplay = articlesToDisplay
-                //    .Where(a => a.ArticlesCategories.Any(ac => ac.Category.Id == categoryToBeFound.Id));
-
             }
 
             if (weather != null)
@@ -74,7 +61,6 @@ namespace LetsGoOutside.Core.Services
                 articlesToDisplay = articlesToDisplay
                     .Where(ad => ad.ArticlesWeathers
                     .Any(aw => aw.Weather.Name == weather));
-                //.Where(aw => aw.Weather.Name == weather);
             }
 
             if (searchTerm != null)
@@ -82,7 +68,8 @@ namespace LetsGoOutside.Core.Services
                 string normalizedSearchTerm = searchTerm.ToLower();
                 articlesToDisplay = articlesToDisplay
                     .Where(a => (a.Title.ToLower().Contains(normalizedSearchTerm)
-                            || a.Content.ToLower().Contains(normalizedSearchTerm)));
+                            || a.Content.ToLower().Contains(normalizedSearchTerm)
+                            || a.BriefIntroduction.ToLower().Contains(normalizedSearchTerm)));
             }
 
             articlesToDisplay = sorting switch
@@ -102,14 +89,6 @@ namespace LetsGoOutside.Core.Services
                 .Skip((currentPage - 1) * articlesPerPage)
                 .Take(articlesPerPage)
                 .ProjectToArticleServiceModel()
-                //{
-                //    Id = a.Id,
-                //    Title = a.Title,
-                //    BriefDescription = a.BriefIntroduction,
-                //    AuthorName = a.Author.Name,
-                //    ImageUrl = a.ImageUrl,
-
-                //})
                 .ToListAsync();
 
             int articlesCount = await articlesToDisplay.CountAsync();
@@ -120,16 +99,6 @@ namespace LetsGoOutside.Core.Services
                 TotalArticlesCount = articlesCount
             };
         }
-
-        //public async Task<int> GetCategoryIdByNameAsync(string categoryName)
-        //{
-
-        //    var categoryToBeFound = await repository.AllReadOnly<Category>()
-        //        .FirstOrDefaultAsync(c => c.Name == categoryName);
-
-
-        //    return categoryToBeFound.Id();
-        //}
 
         public async Task<IEnumerable<ArticleCategoryServiceModel>> AllCategoriesAsync()
         {
@@ -209,7 +178,7 @@ namespace LetsGoOutside.Core.Services
                     categories = String.Join(", ", categories),
                     weathers = String.Join(", ", weathers),
                     IsApproved = a.IsApproved
-                    
+
                 })
                 .FirstAsync();
 
@@ -238,7 +207,6 @@ namespace LetsGoOutside.Core.Services
             {
                 foreach (var categoryIdAsString in model.CategoryIDs)
                 {
-
                     article.ArticlesCategories.Add(new ArticleCategory { ArticleId = article.Id, CategoryId = int.Parse(categoryIdAsString) });
                 }
             }
@@ -271,8 +239,6 @@ namespace LetsGoOutside.Core.Services
                 .Include(a => a.ArticlesCategories)
                 .Include(a => a.ArticlesWeathers)
                 .FirstOrDefaultAsync();
-                
-                //GetByIdAsync<Article>(articleId);
 
             if (article != null)
             {
@@ -294,23 +260,20 @@ namespace LetsGoOutside.Core.Services
 
                 foreach (var weatherId in weathers)
                 {
-                    //article.ArticlesWeathers.Remove(new ArticleWeather { ArticleId = articleId, WeatherId = weatherId });
-
                     var toDelete = article.ArticlesWeathers.Where(a => a.WeatherId == weatherId).First();
 
                     article.ArticlesWeathers.Remove(toDelete);
-
                 }
 
                 await repository.SaveChangesAsync();
 
                 if (model.CategoryIDs.Count() > 0)
-                {                
+                {
                     foreach (var categoryIdAsString in model.CategoryIDs)
                     {
                         int parsedCategoryId = int.Parse(categoryIdAsString);
 
-                       article.ArticlesCategories.Add(new ArticleCategory { ArticleId = article.Id, CategoryId = parsedCategoryId });
+                        article.ArticlesCategories.Add(new ArticleCategory { ArticleId = article.Id, CategoryId = parsedCategoryId });
                     }
                 }
 
@@ -318,14 +281,14 @@ namespace LetsGoOutside.Core.Services
                 {
                     foreach (var weatherId in weathers)
                     {
-                        article.ArticlesWeathers.Remove( new ArticleWeather{ ArticleId = articleId, WeatherId = weatherId });
+                        article.ArticlesWeathers.Remove(new ArticleWeather { ArticleId = articleId, WeatherId = weatherId });
                     }
 
                     foreach (var weatherIdAsString in model.WeatherIDs)
                     {
                         int parsedWeatherId = int.Parse(weatherIdAsString);
 
-                        article.ArticlesWeathers.Add(new ArticleWeather { ArticleId = article.Id, WeatherId = parsedWeatherId});
+                        article.ArticlesWeathers.Add(new ArticleWeather { ArticleId = article.Id, WeatherId = parsedWeatherId });
                     }
                 }
                 await repository.SaveChangesAsync();
@@ -348,21 +311,12 @@ namespace LetsGoOutside.Core.Services
                     Title = a.Title,
                     Content = a.Content,
                     BriefIntroduction = a.BriefIntroduction,
-                    //CategoryIDs = a.ArticlesCategories.Select(ac => ac.CategoryId).ToArray(),
-                    //WeatherIDs = a.ArticlesWeathers.Select(aw => aw.WeatherId).ToArray(),
                     ImageUrl = a.ImageUrl,
                     HyperlinkSource = a.HyperlinkSource
                 })
                 .FirstOrDefaultAsync();
 
-            //if (article !=null)
-            //{
-            //    article.Categories = await AllCategoriesAsync();
-            //    article.Weathers = await AllWeathersAsync();
-            //}
-
             return article;
-
         }
 
         public async Task<List<int>> GetArticleCategoriesIdsAsync(int articleId)
@@ -374,14 +328,14 @@ namespace LetsGoOutside.Core.Services
                 .FirstAsync();
 
             var categories = new List<int>();
-            if (article.ArticlesCategories.Count>0)
+            if (article.ArticlesCategories.Count > 0)
             {
                 foreach (var item in article.ArticlesCategories)
                 {
                     categories.Add(item.CategoryId);
                 }
             }
-            
+
             return categories;
         }
 
@@ -417,10 +371,10 @@ namespace LetsGoOutside.Core.Services
         public async Task<ArticleEditFormModel?> GetArticleEditFormModelByIdAsync(int id)
         {
 
-            var articleCategoryListIds =  new List<int>();
-            var articleWeatherListIds  =new List<int>();
+            var articleCategoryListIds = new List<int>();
+            var articleWeatherListIds = new List<int>();
 
-            if ((await GetArticleCategoriesIdsAsync(id)).Count>0)
+            if ((await GetArticleCategoriesIdsAsync(id)).Count > 0)
             {
                 articleCategoryListIds = await GetArticleCategoriesIdsAsync(id);
             }
@@ -479,7 +433,7 @@ namespace LetsGoOutside.Core.Services
         {
             var article = await repository.GetByIdAsync<Article>(articleId);
 
-            if (article != null && article.IsApproved==false)
+            if (article != null && article.IsApproved == false)
             {
                 article.IsApproved = true;
 
@@ -491,12 +445,12 @@ namespace LetsGoOutside.Core.Services
         {
 
             return await repository.AllReadOnly<Article>()
-                .Where(a=>a.IsApproved==false)
-                .Select(a=> new ArticleDetailsServiceModel()
+                .Where(a => a.IsApproved == false)
+                .Select(a => new ArticleDetailsServiceModel()
                 {
                     Id = a.Id,
                     Title = a.Title,
-                    BriefDescription=a.BriefIntroduction,
+                    BriefDescription = a.BriefIntroduction,
                     Content = a.Content.Split(new string[] { "\r\n", "\n", "\r", Environment.NewLine }, StringSplitOptions.None),
                     ImageUrl = a.ImageUrl,
                     DateCreated = a.DateCreated.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -505,5 +459,7 @@ namespace LetsGoOutside.Core.Services
                 })
                 .ToListAsync();
         }
+
+        
     }
 }

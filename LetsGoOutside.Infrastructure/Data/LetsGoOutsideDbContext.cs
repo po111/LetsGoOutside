@@ -11,22 +11,15 @@ namespace LetsGoOutside.Infrastructure.Data
         public LetsGoOutsideDbContext(DbContextOptions<LetsGoOutsideDbContext> options)
             : base(options)
         {
+            //if (!this.Database.IsRelational())
+            //{
+            //    this.Database.EnsureCreated();
+            //}
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
-
-            //builder.Entity<ArticleCategory>()
-            //    .HasOne(ac => ac.Article)
-            //    .WithMany(a => a.ArticleCategories)
-            //    .HasForeignKey(ac => ac.ArticleId);
-
-            //builder.Entity<ArticleCategory>()
-            //    .HasOne(ac => ac.Category)
-            //    .WithMany(c => c.ArticleCategories)
-            //    .HasForeignKey(ac => ac.CategoryId);
-                
             
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new OrganizerConfiguration());

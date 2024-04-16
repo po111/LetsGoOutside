@@ -55,5 +55,6 @@ namespace LetsGoOutside.Core.Contracts
         Task ApproveArticleAsync(int articleId);
 
         Task<IEnumerable<ArticleDetailsServiceModel>> ArticlesForApprovalAsync();
+
     }
 }

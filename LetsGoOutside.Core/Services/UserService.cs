@@ -57,10 +57,6 @@ namespace LetsGoOutside.Core.Services
                     phoneNumber = organizer.PhoneNumber;
                 }
 
-                //var organizerMaybe = repository.AllReadOnly<Organizer>().FirstOrDefault(x => x.Id == maybeOrganizerId);
-
-                //var phoneNumber = (await repository.GetByIdAsync<Organizer>(user.Id)).PhoneNumber;
-
                 UserServiceModel singlemodel = new UserServiceModel()
                 {
                     Email = user.Email,
@@ -73,14 +69,6 @@ namespace LetsGoOutside.Core.Services
 
                 model.Add(singlemodel);
             }
-            ////}
-            //    return await repository.AllReadOnly<IdentityUser>()
-            //    .Select(async iu => new UserServiceModel()
-            //    {
-            //        Email = iu.Email,
-            //        AuthorName = (await repository.GetByIdAsync<Author>(iu.Id)).Name ?? "",
-
-            //        //OrganizationName = await repository.All<Organizer>().Where(x=>x.UserId==iu.Id).FirstAsync().Name
             return model;
         }
 

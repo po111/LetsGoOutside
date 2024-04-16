@@ -69,7 +69,6 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
         public Event ForthEvent { get; set; }
         public Event FifthEvent { get; set; }
 
-        //public ArticleCategory ArticleCategories { get; set; }
 
         public SeedData()
         {
@@ -524,8 +523,6 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
                 EventHyperlink = "https://ipark.bg/bg-BG/Events/Details/2137",
                 OrganizerId = Organizer2.Id
             };
-
-
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿@model IndexEventModel
+﻿@inject IEventService eventService
+@model IndexEventModel
 
 <div>
     <div class="card mb-3">
@@ -13,7 +14,7 @@
                 <br />
                 <a asp-controller="Event" asp-action="Details" asp-route-id="@Model.Id"
                    class="btn btn-success">Details</a>
-                @if (this.User.Identity.IsAuthenticated)
+                @if (this.User.Identity.IsAuthenticated && (await eventService.HasOrganizerWithIdAsync(Model.Id, User.Id()) || User.IsAdmin()))
                 {
                     <a asp-controller="Event" asp-action="Edit" asp-route-id="@Model.Id"
                        class="btn btn-warning">Edit</a>

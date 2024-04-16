@@ -35,7 +35,8 @@ namespace LetsGoOutside.Core.Services
                 eventsToDisplay = eventsToDisplay
                     .Where(a => (a.Title.ToLower().Contains(normalizedSearchTerm)
                             || a.Description.ToLower().Contains(normalizedSearchTerm)
-                            || a.Address.ToLower().Contains(normalizedSearchTerm)));
+                            || a.Address.ToLower().Contains(normalizedSearchTerm)
+                            || a.BriefIntroduction.ToLower().Contains(normalizedSearchTerm)));
             }
 
             eventsToDisplay = sorting switch
@@ -168,7 +169,7 @@ namespace LetsGoOutside.Core.Services
                   },
                   OrganizerName = e.Organizer.Name,
                   IsApproved = e.IsApproved
-                  
+
               })
               .FirstAsync();
 

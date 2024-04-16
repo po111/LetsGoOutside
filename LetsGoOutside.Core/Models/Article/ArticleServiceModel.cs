@@ -8,6 +8,7 @@ namespace LetsGoOutside.Core.Models.Article
     public class ArticleServiceModel
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage = RequiredMessage)]
         [StringLength(ArticleTitleMaxLength,
             MinimumLength = ArticleTitleMinLength,

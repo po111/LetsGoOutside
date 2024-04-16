@@ -7,7 +7,7 @@
 
 <div>
     <div class="container">
-        <div class="image">
+        <div class="image" id="fixpic">
             <img src="@Model.ImageUrl" class="img-fluid">
         </div>
         <div class="text">
@@ -29,7 +29,7 @@
     <p>@Model.DateCreated</p>
     @if (Model.HyperlinkSource != null)
     {
-        <a href="@Model.HyperlinkSource">Източник</a>
+        <a href="@Model.HyperlinkSource" style="color:#000000">Източник</a>
     }
     <p>Категория: <b>@Model.categories</b></p>
     <p>Подходящо време: <b>@Model.weathers</b></p>
