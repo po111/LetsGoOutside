@@ -20,18 +20,7 @@ namespace LetsGoOutside.Areas.Admin.Controllers
             articleService = _articleService;
             authorService = _authorService;
         }
-        //public async Task <IActionResult> Mine()
-        //{
-        //    var userId = User.Id();
-        //    int authorId = await authorService.GetAuthorIdAsync(userId) ?? 0;
-
-        //    var myArticles = new MyArticlesViewModel()
-        //    {
-        //        AddedArticles = await articleService.AllArticlesByAuthorIdAsync(authorId)
-        //    };
-
-        //    return View(myArticles);
-        //}
+      
         [HttpGet]
         public async Task<IActionResult> Approve()
         {
@@ -47,25 +36,5 @@ namespace LetsGoOutside.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(Approve));
         }
-
-        [HttpGet]
-        public async Task<IActionResult> All( [FromQuery] AllArticlesQueryModel model)
-        {
-                var articles = await articleService.AllAsync(
-                    model.Category,
-                    model.Weather,
-                    model.SearchTerm,
-                    model.Sorting,
-                    model.CurrentPage,
-                    model.ArticlesPerPage);
-
-                model.TotalArticlesCount = articles.TotalArticlesCount;
-                model.Articles = articles.Articles;
-
-                model.Categories = await articleService.AllCategoriesNamesAsync();
-                model.Weathers = await articleService.AllWeatherNamesAsync();
-
-                return View(model);
-            }
     }
 }
