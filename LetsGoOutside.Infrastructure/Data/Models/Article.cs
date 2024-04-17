@@ -31,10 +31,6 @@ namespace LetsGoOutside.Infrastructure.Data.Models
         [Comment("Date of creation")]
         public DateTime DateCreated { get; set; }
 
-
-        //[Comment("Date modified")]
-        //public DateTime? DateModified { get; set; }
-
         [Required]
         [Comment("Article image url")]
         public string ImageUrl { get; set; } = null!;

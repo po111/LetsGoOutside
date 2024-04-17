@@ -1,17 +1,11 @@
 ﻿using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Enumerations;
-using LetsGoOutside.Core.Models.Article;
 using LetsGoOutside.Core.Models.Event;
 using LetsGoOutside.Core.Models.Home;
 using LetsGoOutside.Infrastructure.Data.Common;
 using LetsGoOutside.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LetsGoOutside.Core.Services
 {
@@ -128,11 +122,6 @@ namespace LetsGoOutside.Core.Services
                 .ProjectToEventServiceModel()
                 .ToListAsync();
         }
-
-        //public Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         public async Task<bool> ExistsAsync(int id)
         {

@@ -1,10 +1,6 @@
-using LetsGoOutside.Core.Contracts;
-using LetsGoOutside.Core.Services;
-using LetsGoOutside.Infrastructure.Data.Common;
 using LetsGoOutside.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 
 
 namespace LetsGoOutside.Tests
@@ -12,15 +8,10 @@ namespace LetsGoOutside.Tests
     [TestFixture]
     public class AuthorServiceTests : UnitTestsBase
     {
-        //private Mock<IRepository> mockRepository;
-        //private IAuthorService authorService;
-
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            //authorService = new AuthorService(context);
-            //repository = new Repository(context);
         }
 
         [Test]

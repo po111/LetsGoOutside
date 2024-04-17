@@ -5,12 +5,7 @@ using LetsGoOutside.Core.Models.Home;
 using LetsGoOutside.Infrastructure.Data.Common;
 using LetsGoOutside.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Globalization;
-using System.Linq.Expressions;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace LetsGoOutside.Core.Services
 {

@@ -1,8 +1,6 @@
 ﻿using LetsGoOutside.Attributes;
 using LetsGoOutside.Core.Contracts;
-using LetsGoOutside.Core.Models.Article;
 using LetsGoOutside.Core.Models.Event;
-using LetsGoOutside.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

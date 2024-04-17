@@ -32,8 +32,6 @@ namespace LetsGoOutside.Core.Contracts
 
         Task<IEnumerable<ArticleServiceModel>> AllArticlesByAuthorIdAsync(int authorId);
 
-        //Task<IEnumerable<ArticleServiceModel>> AllArticlesByUserIdAsync(string userId);
-
         Task<bool> ExistsAsync(int id);
 
         Task<ArticleDetailsServiceModel> ArticleDetailsByIdAsync(int id);

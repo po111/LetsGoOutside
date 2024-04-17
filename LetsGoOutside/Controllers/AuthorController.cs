@@ -1,7 +1,6 @@
 ﻿using LetsGoOutside.Attributes;
 using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Models.Author;
-using LetsGoOutside.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using static LetsGoOutside.Core.Constants.MessageConstants;

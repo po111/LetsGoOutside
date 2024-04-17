@@ -1,15 +1,9 @@
 ﻿using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Models.Admin.User;
 using LetsGoOutside.Infrastructure.Data.Common;
+using LetsGoOutside.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Security.Claims;
-using LetsGoOutside.Infrastructure.Data.Models;
 
 namespace LetsGoOutside.Core.Services
 {

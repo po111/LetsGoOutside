@@ -1,8 +1,5 @@
 ﻿using LetsGoOutside.Core.Contracts;
-using LetsGoOutside.Core.Models.Admin;
-using LetsGoOutside.Core.Models.Article;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace LetsGoOutside.Areas.Admin.Controllers
 {

@@ -1,5 +1,4 @@
 ﻿using LetsGoOutside.Core.Contracts;
-using LetsGoOutside.Core.Models.Event;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LetsGoOutside.Areas.Admin.Controllers

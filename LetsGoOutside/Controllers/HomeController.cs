@@ -1,10 +1,7 @@
 ﻿using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Models.Home;
-using LetsGoOutside.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.Design;
-using System.Diagnostics;
 
 namespace LetsGoOutside.Controllers
 {

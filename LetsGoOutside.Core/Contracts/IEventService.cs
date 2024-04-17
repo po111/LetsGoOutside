@@ -22,8 +22,6 @@ namespace LetsGoOutside.Core.Contracts
             int eventsPerPage = 3);
         Task<IEnumerable<EventServiceModel>> AllEventsByOrganizerIdAsync(int agentId);
 
-        //Task<IEnumerable<EventServiceModel>> AllEventsByUserIdAsync(string userId);
-
         Task<bool> ExistsAsync(int id);
 
         Task<EventDetailsServiceModel> EventDetailsByIdAsync(int id);

@@ -20,7 +20,9 @@ namespace LetsGoOutside.Tests
         public IRepository repository;
         public IAuthorService authorService;
         public IOrganizerService organizerService;
-        
+        public IEventService eventService;
+        public IArticleService articleService;
+
         [OneTimeSetUp]
 
         public void SetUpBase()
@@ -29,6 +31,8 @@ namespace LetsGoOutside.Tests
             repository = new Repository(context);
             authorService = new AuthorService(repository);
             organizerService =  new OrganizerService(repository);
+            eventService = new EventService(repository);
+            articleService = new ArticleService(repository);
             SeedDatabase();
         }
 
@@ -108,7 +112,7 @@ namespace LetsGoOutside.Tests
 
             Author = new Author()
             {
-                //Id = 1,
+                Id = 1,
                 Name = "Евтим Добринов",
                 DateCreated = DateTime.Now.AddDays(-60),
                 UserId = AuthorUser.Id
@@ -116,7 +120,7 @@ namespace LetsGoOutside.Tests
 
             Organizer = new Organizer()
             {
-                //Id=2,
+                Id=1,
                 PhoneNumber = "+359878394090",
                 Name = "Конна База Войнеговци",
                 BriefPresentation = "Забавления за деца и възрастни. Конна езда, зоокът, стрелба с лък, детски лагери.",
