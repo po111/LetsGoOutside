@@ -1,8 +1,5 @@
 ﻿using LetsGoOutside.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Design;
-
-using System.Globalization;
 
 namespace LetsGoOutside.Infrastructure.Data.SeedDb
 {
@@ -77,8 +74,6 @@ namespace LetsGoOutside.Infrastructure.Data.SeedDb
             SeedOrganizers();
             SeedCategories();
             SeedWeather();
-            //SeedArticleCategory();
-            //SeedArticleWeather();
             SeedArticles();
             SeedEvents();
 

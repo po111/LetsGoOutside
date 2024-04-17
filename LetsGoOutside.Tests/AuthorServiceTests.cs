@@ -1,58 +1,30 @@
 using LetsGoOutside.Core.Contracts;
 using LetsGoOutside.Core.Services;
-using LetsGoOutside.Infrastructure.Data;
 using LetsGoOutside.Infrastructure.Data.Common;
 using LetsGoOutside.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using NUnit.Framework;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using static LetsGoOutside.Tests.DatabaseSeeder;
+using Moq;
 
 
 namespace LetsGoOutside.Tests
 {
     [TestFixture]
-    public class AuthorServiceTests
+    public class AuthorServiceTests : UnitTestsBase
     {
-        private IRepository repository;
-        private LetsGoOutsideDbContext dbContext;
-        private IAuthorService authorService;
-        private DbContextOptions<LetsGoOutsideDbContext> dbOptions;
+        //private Mock<IRepository> mockRepository;
+        //private IAuthorService authorService;
 
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            //var configuration = new ConfigurationBuilder()
-            //    .AddUserSecrets<AuthorServiceTests>()
-            //    .Build();
-
-            //var connectionString = configuration.GetConnectionString("TestingConnection");
-
-            //var contextOptions = new DbContextOptionsBuilder<LetsGoOutsideDbContext>()
-            //    .UseSqlServer(connectionString)
-            //    .Options;
-
-            this.dbOptions = new DbContextOptionsBuilder<LetsGoOutsideDbContext>()
-                .UseInMemoryDatabase("LetsGoOutsideInMemory" + Guid.NewGuid().ToString())
-                .Options;
-
-            this.dbContext = new LetsGoOutsideDbContext(this.dbOptions);
-
-            this.dbContext.Database.EnsureDeleted();
-            this.dbContext.Database.EnsureCreated();
-
-            //SeedDatabase(this.dbContext);
-
-            repository = new Repository(dbContext);
-            authorService = new AuthorService(repository);
+            //authorService = new AuthorService(context);
+            //repository = new Repository(context);
         }
 
         [Test]
-        public async Task Test_CreateAsync_And_AuthorWithSameNameExistsAsync_ShouldCreateAuthorCorrectly()
+        public async Task Test_CreateAsync_And_AuthorWithSameNameExistsAsync_ShouldWorkCorrectly()
         {
 
             var user = new IdentityUser()
@@ -68,8 +40,8 @@ namespace LetsGoOutside.Tests
 
             };
 
-            await authorService.CreateAsync("cea12856-c198-4129-b3f3-b893d8395082", "????? ????????");
-            string authorNameForCheck = "????? ????????";
+            await authorService.CreateAsync("cea12856-c198-4129-b3f3-b893d8395082", "????? ???????");
+            string authorNameForCheck = "????? ???????";
 
 
             var userAuthor = await repository.AllReadOnly<Author>().Where(a => a.UserId == user.Id).FirstOrDefaultAsync();
@@ -80,7 +52,7 @@ namespace LetsGoOutside.Tests
             Assert.That(userAuthor.Name,Is.EqualTo(authorNameForCheck));
 
 
-            Assert.That(await authorService.AuthorWithSameNameExistsAsync("????? ????????"), Is.True);
+            Assert.That(await authorService.AuthorWithSameNameExistsAsync("????? ???????"), Is.True);
         }
 
         [Test]
@@ -112,7 +84,7 @@ namespace LetsGoOutside.Tests
                 SecurityStamp = "XQ7FG7YA6I44XERMODGTTI7ZGB5HF6RW"
             };
 
-            await authorService.CreateAsync("dea22856-c198-4129-b3f9-b893d8395082", "????? ????????");
+            await authorService.CreateAsync("dea22856-c198-4129-b3f9-b893d8395082", "???????? ??????");
 
             var author = await repository.AllReadOnly<Author>().FirstOrDefaultAsync(x => x.UserId == user.Id);
             int authorId = author.Id;

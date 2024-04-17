@@ -74,7 +74,7 @@ namespace LetsGoOutside.Infrastructure.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
 
                     b.HasComment("Article by author");
 
@@ -153,7 +153,7 @@ namespace LetsGoOutside.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("ArticlesCategories");
+                    b.ToTable("ArticlesCategories", (string)null);
 
                     b.HasData(
                         new
@@ -255,7 +255,7 @@ namespace LetsGoOutside.Infrastructure.Migrations
 
                     b.HasIndex("ArticleId");
 
-                    b.ToTable("ArticlesWeathers");
+                    b.ToTable("ArticlesWeathers", (string)null);
 
                     b.HasData(
                         new
@@ -471,7 +471,7 @@ namespace LetsGoOutside.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
 
                     b.HasComment("Author of content");
 
@@ -516,7 +516,7 @@ namespace LetsGoOutside.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
 
                     b.HasComment("Article category");
 
@@ -620,7 +620,7 @@ namespace LetsGoOutside.Infrastructure.Migrations
 
                     b.HasIndex("OrganizerId");
 
-                    b.ToTable("Events");
+                    b.ToTable("Events", (string)null);
 
                     b.HasComment("Organizer's Event");
 
@@ -750,7 +750,7 @@ namespace LetsGoOutside.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Organizers");
+                    b.ToTable("Organizers", (string)null);
 
                     b.HasComment("Organizer of events");
 
@@ -824,7 +824,7 @@ namespace LetsGoOutside.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Weathers");
+                    b.ToTable("Weathers", (string)null);
 
                     b.HasComment("Appropriate weather");
 

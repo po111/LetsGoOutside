@@ -8,29 +8,41 @@ namespace LetsGoOutside.Infrastructure.Data
 {
     public class LetsGoOutsideDbContext : IdentityDbContext
     {
-        public LetsGoOutsideDbContext(DbContextOptions<LetsGoOutsideDbContext> options)
+        private bool _seedDb;
+        public LetsGoOutsideDbContext(DbContextOptions<LetsGoOutsideDbContext> options, bool seedDb=true)
             : base(options)
         {
-            //if (!this.Database.IsRelational())
-            //{
-            //    this.Database.EnsureCreated();
-            //}
-
+            if (!Database.IsRelational())
+            {
+                Database.EnsureCreated();
+            }
+            _seedDb = seedDb;
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            
-            builder.ApplyConfiguration(new UserConfiguration());
-            builder.ApplyConfiguration(new OrganizerConfiguration());
-            builder.ApplyConfiguration(new AuthorConfiguration());
-            builder.ApplyConfiguration(new WeatherConfiguration());
-            builder.ApplyConfiguration(new CategoryConfiguration());
-            builder.ApplyConfiguration(new ArticleConfiguration());
-            builder.ApplyConfiguration(new ArticleCategoryConfiguration());
-            builder.ApplyConfiguration(new ArticleWeatherConfiguration());
-            builder.ApplyConfiguration(new EventConfiguration());
+            builder
+                .Entity<ArticleCategory>()
+                .HasKey(ac => new { ac.ArticleId, ac.CategoryId });
 
+            builder
+                .Entity<ArticleWeather>()
+                .HasKey(aw => new { aw.WeatherId, aw.ArticleId });
+
+            if (_seedDb)
+            {
+                builder.ApplyConfiguration(new UserConfiguration());
+                builder.ApplyConfiguration(new OrganizerConfiguration());
+                builder.ApplyConfiguration(new AuthorConfiguration());
+                builder.ApplyConfiguration(new WeatherConfiguration());
+                builder.ApplyConfiguration(new CategoryConfiguration());
+                builder.ApplyConfiguration(new ArticleConfiguration());
+                builder.ApplyConfiguration(new ArticleCategoryConfiguration());
+                builder.ApplyConfiguration(new ArticleWeatherConfiguration());
+                builder.ApplyConfiguration(new EventConfiguration());
+            }
+            
+            
             base.OnModelCreating(builder);
         }
 
