@@ -57,8 +57,17 @@ namespace LetsGoOutside.Tests
 
         }
 
-        
+        [Test]
+        public async Task ExistAsync_WorksCorrectly()
+        {
+            var eventToFind = await repository.AllReadOnly<Event>().FirstOrDefaultAsync();
 
+            Assert.That(eventToFind, Is.Not.Null);
+
+            var result = await eventService.ExistsAsync((eventToFind.Id));
+
+            Assert.That(result, Is.True);
+        }
 
     }
 }
